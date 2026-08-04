@@ -1,0 +1,208 @@
+:root {
+  --bg: rgb(30, 30, 30);
+  --bg-light: rgb(35, 35, 35);
+  --bg-lighter: rgb(40, 40, 40);
+  --bg-lightest: rgb(45, 45, 45);
+  --bg-dark: rgb(25, 25, 25);
+  --bg-alpha: rgba(255, 255, 255, 0.03);
+  --bg-alpher: rgba(255, 255, 255, 0.01);
+
+  --bg-inverted: rgb(255, 255, 255);
+  --bg-light-inverted: rgb(250, 250, 250);
+  --bg-lighter-inverted: rgb(245, 245, 245);
+  --bg-lightest-inverted: rgb(235, 235, 235);
+  --bg-dark-inverted: rgb(215, 215, 215);
+  --bg-alpha-inverted: rgb(0, 0, 0, 0.03);
+  --bg-alpher-inverted: rgb(0, 0, 0, 0.01);
+
+  --text: rgb(245, 245, 245);
+  --text-light: rgb(255, 255, 255);
+  --text-dark: rgb(230, 230, 230);
+  --text-darker: rgb(210, 210, 210);
+  --text-darkest: rgb(190, 190, 190);
+  --text-sub: rgb(170, 170, 170);
+  --text-invert: rgb(19, 19, 19);
+
+  --shadow: rgba(255, 255, 255, 0.02) 0px 6px 24px 0px, rgba(255, 255, 255, 0.08) 0px 0px 0px 1px;
+  --shadow-light: rgba(255, 255, 255, 0.005) 0px 6px 24px 0px, rgba(255, 255, 255, 0.04) 0px 0px 0px 1px;
+  --shadow-fancy: inset 0 1px 2px rgba(255, 255, 255, 0.02), 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  --background: rgb(30, 30, 30);
+  --background-light: rgb(40, 40, 40);
+  --background-inverted: rgb(235, 235, 235);
+  --background-light-inverted: rgb(255, 255, 255);
+  --background-alpha: rgba(255, 255, 255, 0.3);
+  --background-full-alpha: rgba(255, 255, 255, 0.1);
+  --background-absolute-alpha: rgba(255, 255, 255, 0.05);
+
+  --border: rgba(255, 255, 255, 0.1);
+
+  --input-background: rgba(255, 255, 255, 0.035);
+  --select-background: rgba(255, 255, 255, 0.035);
+  --button-background: rgba(255, 255, 255, 0.035);
+
+  --loading-screen-background: rgba(30, 30, 30, 0.5);
+
+  --green: rgb(29, 255, 71);
+  --green-dark: rgb(25, 199, 57);
+  --green-alpha: rgba(29, 255, 71, 0.3);
+  --green-full-alpha: rgba(29, 255, 71, 0.1);
+}
+
+:root[data-theme="light"] {
+  --bg: rgb(255, 255, 255);
+  --bg-light: rgb(250, 250, 250);
+  --bg-lighter: rgb(245, 245, 245);
+  --bg-lightest: rgb(235, 235, 235);
+  --bg-dark: rgb(215, 215, 215);
+  --bg-alpha: rgba(0, 0, 0, 0.03);
+  --bg-alpher: rgba(0, 0, 0, 0.01);
+
+
+  --bg-inverted: rgb(30, 30, 30);
+  --bg-light-inverted: rgb(35, 35, 35);
+  --bg-lighter-inverted: rgb(40, 40, 40);
+  --bg-lightest-inverted: rgb(45, 45, 45);
+  --bg-dark-inverted: rgb(25, 25, 25);
+  --bg-alpha-inverted: rgb(255, 255, 255, 0.03);
+  --bg-alpher-inverted: rgb(255, 255, 255, 0.01);
+
+  --text: rgb(35, 35, 35);
+  --text-light: rgb(30, 30, 30);
+  --text-dark: rgb(50, 50, 50);
+  --text-darker: rgb(80, 80, 80);
+  --text-darkest: rgb(100, 100, 100);
+  --text-sub: rgb(100, 100, 100);
+  --text-invert: rgb(245, 245, 245);
+
+  --shadow: rgba(0, 0, 0, 0.02) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  --shadow-light: rgba(0, 0, 0, 0.005) 0px 6px 24px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+  --shadow-fancy: inset 0 1px 2px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(255, 255, 255, 0.05);
+
+  --background: rgb(235, 235, 235);
+  --background-light: rgb(255, 255, 255);
+  --background-inverted: rgb(30, 30, 30);
+  --background-light-inverted: rgb(40, 40, 40);
+  --background-alpha: rgba(0, 0, 0, 0.2);
+  --background-full-alpha: rgba(0, 0, 0, 0.05);
+  --background-absolute-alpha: rgba(0, 0, 0, 0.03);
+
+  --border: rgba(0, 0, 0, 0.1);
+
+  --input-background: rgba(0, 0, 0, 0.035);
+  --select-background: rgba(0, 0, 0, 0.035);
+  --button-background: rgba(0, 0, 0, 0.035);
+
+  --loading-screen-background: rgba(235, 235, 235, 0.5);
+
+  --green: rgb(26, 213, 60);
+  --green-dark: rgb(19, 152, 44);
+  --green-alpha: rgba(26, 213, 60, 0.3);
+  --green-full-alpha: rgba(26, 213, 60, 0.1);
+}
+
+:root {
+  --border-radius-xxs: 0.25rem;
+  --border-radius-xs: 0.5rem;
+  --border-radius-s: 0.75rem;
+  --border-radius-m: 1rem;
+  --border-radius-l: 1.25rem;
+  --border-radius-xl: 1.75rem;
+  --border-radius-xxl: 2.5rem;
+
+  --margin-xxs: 0.25rem;
+  --margin-xs: 0.5rem;
+  --margin-s: 0.75rem;
+  --margin-m: 1rem;
+  --margin-l: 1.25rem;
+  --margin-xl: 1.75rem;
+  --margin-xxl: 2.5rem;
+
+  --padding-xxs: 0.25rem;
+  --padding-xs: 0.5rem;
+  --padding-s: 0.75rem;
+  --padding-m: 1rem;
+  --padding-l: 1.25rem;
+  --padding-xl: 1.75rem;
+  --padding-xxl: 2.5rem;
+
+  --font-xxs: 0.625rem;
+  --font-xs: 0.75rem;
+  --font-s: 0.875rem;
+  --font-m: 1rem;
+  --font-l: 1.25rem;
+  --font-xl: 1.5rem;
+  --font-xxl: 1.875rem;
+
+  --gap-xxs: 0.25rem;
+  --gap-xs: 0.5rem;
+  --gap-s: 0.75rem;
+  --gap-m: 1rem;
+  --gap-l: 1.25rem;
+  --gap-xl: 1.75rem;
+  --gap-xxl: 2.5rem;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --icon: rgb(121, 121, 121);
+
+  --main: rgb(255, 65, 65);
+  --main-light: rgb(253, 118, 118);
+  --main-dark: rgb(202, 60, 60);
+  --main-alpha: rgba(255, 41, 41, 0.3);
+  --main-minalpha: rgba(255, 41, 41, 0.1);
+
+  --notification-success: rgb(29, 255, 71);
+  --notification-error: rgb(255, 41, 41);
+  --notification-warning: rgb(255, 194, 41);
+  --notification-info: rgb(41, 112, 255);
+
+  --red: rgb(253, 48, 48);
+  --red-dark: rgb(203, 39, 39);
+  --red-alpha: rgba(253, 48, 48, 0.3);
+  --red-full-alpha: rgba(255, 29, 29, 0.1);
+  --blue: rgb(29, 55, 255);
+  --blue-dark: rgb(24, 44, 202);
+  --blue-alpha: rgba(29, 55, 255, 0.3);
+  --blue-full-alpha: rgba(29, 55, 255, 0.1);
+  --purple: rgb(131, 29, 255);
+  --purple-dark: rgb(104, 24, 201);
+  --purple-alpha: rgba(131, 29, 255, 0.3);
+  --purple-full-alpha: rgba(131, 29, 255, 0.1);
+  --yellow: rgb(255, 191, 29);
+  --yellow-dark: rgb(201, 151, 24);
+  --yellow-alpha: rgba(255, 191, 29, 0.3);
+  --yellow-full-alpha: rgba(255, 191, 29, 0.1);
+  --orange: rgb(255, 104, 29);
+  --orange-dark: rgb(195, 80, 22);
+  --orange-alpha: rgba(255, 104, 29, 0.3);
+  --orange-full-alpha: rgba(255, 104, 29, 0.1);
+  --light-blue: rgb(29, 161, 255);
+  --light-blue-dark: rgb(23, 130, 206);
+  --light-blue-alpha: rgba(29, 161, 255, 0.3);
+  --light-blue-full-alpha: rgba(29, 161, 255, 0.1);
+  --grey: rgb(128, 128, 128);
+  --grey-dark: rgb(100, 100, 100);
+  --grey-alpha: rgba(128, 128, 128, 0.3);
+  --grey-full-alpha: rgba(128, 128, 128, 0.1);
+
+  --background-static-dark: rgb(30, 30, 30);
+  --background-light-static-dark: rgb(40, 40, 40);
+  --background-static-light: rgb(235, 235, 235);
+  --background-light-static-light: rgb(255, 255, 255);
+
+  --text-static-light: rgb(245, 245, 245);
+  --text-static-dark: rgb(19, 19, 19);
+
+  --warning-screen-color: rgb(255, 69, 69);
+  --warning-screen-background: rgba(108, 18, 18, 0.5);
+  --loading-screen-background-black: rgba(30, 30, 30, 0.5);
+
+  --white: rgb(255, 255, 255);
+  --black: rgb(0, 0, 0);
+}

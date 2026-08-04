@@ -1,0 +1,9 @@
+class VitalisClient {
+  constructor() {
+
+  }
+
+  Initialize() {
+    
+  }
+}

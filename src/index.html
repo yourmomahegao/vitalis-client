@@ -1,0 +1,54 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vitalis Client</title>
+
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="sidebar-container">
+        <div class="sidebar-title">
+          <img src="./../src/assets/icons/app/vitalis-client-256.png" alt="" />
+          <span>Vitalis Client</span>
+        </div>
+
+        <div class="sidebar-chapters">
+          <button class="chapter-button" data-chapter-name="dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard">
+              <rect width="7" height="9" x="3" y="3" rx="1" />
+              <rect width="7" height="5" x="14" y="3" rx="1" />
+              <rect width="7" height="9" x="14" y="12" rx="1" />
+              <rect width="7" height="5" x="3" y="16" rx="1" />
+            </svg>
+            Dashboard
+          </button>
+
+          <button class="chapter-button" data-chapter-name="servers">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
+              <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+              <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+              <line x1="6" x2="6.01" y1="6" y2="6" />
+              <line x1="6" x2="6.01" y1="18" y2="18" />
+            </svg>
+            Servers
+          </button>
+        </div>
+      </div>
+
+      <div class="chapters-container">
+        <div class="chapter" data-chapter-name="dashboard">123</div>
+        <div class="chapter" data-chapter-name="servers">321</div>
+      </div>
+    </div>
+
+    <script src="js/lib.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/vitalis-client.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
