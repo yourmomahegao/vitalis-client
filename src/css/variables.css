@@ -43,9 +43,9 @@
 
 :root[data-theme=light] {
   --bg: rgb(255, 255, 255);
-  --bg-light: rgb(250, 250, 250);
-  --bg-lighter: rgb(245, 245, 245);
-  --bg-lightest: rgb(235, 235, 235);
+  --bg-light: rgb(245, 245, 245);
+  --bg-lighter: rgb(235, 235, 235);
+  --bg-lightest: rgb(225, 225, 225);
   --bg-dark: rgb(215, 215, 215);
   --bg-alpha: rgba(0, 0, 0, 0.03);
   --bg-alpher: rgba(0, 0, 0, 0.01);

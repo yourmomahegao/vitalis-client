@@ -29,6 +29,7 @@ class CustomWindow {
         .custom-window .custom-window-title-bar-spacer {
           width: 100%;
           height: 1px;
+          background: var(--bg-alpha)
         }
 
         .custom-window .custom-window-body {
@@ -69,9 +70,11 @@ class CustomWindow {
         }
 
         .custom-window .custom-window-title-bar .custom-window-icon svg {
-          width: 18px;
-          height: 18px;
+          width: 16px;
+          height: 16px;
           color: var(--text);
+
+          opacity: 0.6;
         }
 
         .custom-window .custom-window-title-bar .custom-window-title {
@@ -140,6 +143,11 @@ class CustomWindow {
 
         <div class="custom-window-body">${$container.html()}</div>
       </div>`);
+
+    const inheritedClasses = ($container.attr("class") || "")
+      .split(/\s+/)
+      .filter((className) => className && className !== "custom-window");
+    $newWindow.addClass(inheritedClasses);
 
     position = position.split(" ");
     const positionX = position[0];

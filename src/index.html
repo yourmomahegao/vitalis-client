@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="css/index/chapters.css" />
     <link rel="stylesheet" href="css/index/index.css" />
 
+    <link rel="stylesheet" href="css/custom-styles/elevated.css" />
+
     <link rel="stylesheet" href="css/chapters/servers/servers.css" />
+    <link rel="stylesheet" href="css/chapters/servers/add-server.css" />
   </head>
   <body no-transitions>
     <div class="main">
@@ -53,7 +56,7 @@
         </div>
 
         <div class="sidebar-buttons-container">
-          <button class="chapter-button active" data-chapter-name="dashboard">
+          <button class="chapter-button" data-chapter-name="dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard">
               <rect width="7" height="9" x="3" y="3" rx="1" />
               <rect width="7" height="5" x="14" y="3" rx="1" />
@@ -63,7 +66,7 @@
             <span>Dashboard</span>
           </button>
 
-          <button class="chapter-button" data-chapter-name="servers">
+          <button class="chapter-button active" data-chapter-name="servers">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
               <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
               <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
@@ -102,7 +105,7 @@
       </div>
 
       <div class="chapters-container">
-        <div class="chapter-container" data-chapter-name="dashboard">
+        <div class="chapter-container hidden" data-chapter-name="dashboard">
           <div class="chapter-sub-container">
             <div class="chapter-title">
               <div class="chapter-name">Dashboard</div>
@@ -111,7 +114,7 @@
           </div>
         </div>
 
-        <div class="chapter-container hidden" data-chapter-name="servers">
+        <div class="chapter-container" data-chapter-name="servers">
           <div class="chapter-sub-container">
             <div class="chapter-title">
               <div class="chapter-name">Servers</div>
@@ -136,7 +139,7 @@
                   Export servers
                 </button>
 
-                <button class="chapter-action colored">
+                <button class="chapter-action add-server-button colored">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                     <path d="M5 12h14" />
                     <path d="M12 5v14" />
@@ -146,8 +149,35 @@
               </div>
             </div>
 
-            <div class="custom-window" title="Add server" width="500px" position="center center" icon='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-plus-icon lucide-server-plus"><path d="M12.5 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M16 12h6"/><path d="M19 9v6"/><path d="M22 18v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h8.5"/><path d="M6 18h.01"/><path d="M6 6h.01"/></svg>'>
-              
+            <div class="custom-window add-server-custom-window" hidden title="Add server" width="500px" position="center center" icon='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-plus-icon lucide-server-plus"><path d="M12.5 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M16 12h6"/><path d="M19 9v6"/><path d="M22 18v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h8.5"/><path d="M6 18h.01"/><path d="M6 6h.01"/></svg>'>
+              <div class="add-server-container">
+                <div class="add-server-fields">
+                  <label data-style="elevated" for="address" title="The address of the server where Vitalis is running">Address</label>
+                  <input data-style="elevated" id="address" type="text" placeholder="127.0.0.1" />
+
+                  <label data-style="elevated" for="port" title="The port of the server running Vitalis">Port</label>
+                  <input data-style="elevated" id="port" type="text" placeholder="8080" />
+
+                  <label data-style="elevated" for="secret-key" title="The server's secret key (from the Vitalis .env file)">Secret key</label>
+                  <input data-style="elevated" id="secret-key" type="text" placeholder="f28bcf4abf63249***" />
+
+                  <label data-style="elevated" for="schema" title="It is strongly recommended to use https:// (if the server supports it).">Schema</label>
+                  <select data-style="elevated" id="schema">
+                    <option value="http://">http://</option>
+                    <option value="https://">https://</option>
+                  </select>
+                </div>
+
+                <div class="add-server-actions">
+                  <button data-style="elevated" id="add-server-apply">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                      <path d="M5 12h14" />
+                      <path d="M12 5v14" />
+                    </svg>
+                    Add server
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -172,6 +202,7 @@
     <script src="js/sidebar/sidebar-collapse.js"></script>
     <script src="js/sidebar/sidebar-chapters.js"></script>
     <script src="js/sidebar/sidebar-actions.js"></script>
+    <script src="js/chapters/servers/add-server.js"></script>
     <script src="js/chapters/servers/servers.js"></script>
     <script src="js/main.js"></script>
   </body>

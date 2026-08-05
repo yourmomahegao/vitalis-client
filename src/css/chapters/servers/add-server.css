@@ -1,0 +1,35 @@
+.add-server-container {
+  width: calc(100% - var(--padding-l) * 2);
+  height: calc(100% - var(--padding-l) * 2);
+  padding: var(--padding-l);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-xl);
+}
+.add-server-container .add-server-fields {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-l);
+}
+.add-server-container .add-server-fields label {
+  margin-bottom: calc(var(--gap-l) * -1 + var(--gap-xxs));
+}
+.add-server-container .add-server-fields input, .add-server-container .add-server-fields select {
+  width: 100%;
+}
+.add-server-container .add-server-actions {
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+  gap: var(--gap-l);
+}
+
+/*# sourceMappingURL=add-server.css.map */
