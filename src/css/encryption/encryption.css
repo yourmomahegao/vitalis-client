@@ -1,0 +1,24 @@
+.chapters-container .encryption-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - var(--margin-m));
+  height: calc(100% - var(--margin-m));
+  margin-right: var(--margin-m);
+  margin-bottom: var(--margin-m);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--bg-lighter);
+  border-radius: var(--border-radius-l);
+  z-index: 999;
+}
+.chapters-container .encryption-container .encryption-sub-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/*# sourceMappingURL=encryption.css.map */
