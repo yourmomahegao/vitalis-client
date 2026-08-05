@@ -69,6 +69,12 @@ select[data-style="elevated"] {
 
   border-radius: var(--border-radius-xs);
   box-shadow: var(--shadow-light);
+
+  option {
+    background: var(--bg-lighter);
+    font-size: var(--font-s);
+    font-weight: var(--font-weight-medium);
+  }
 }
 
 label[data-style="elevated"] {
