@@ -19,6 +19,7 @@
   display: none;
 }
 .main .chapters-container .chapter-container .chapter-sub-container {
+  position: relative;
   width: calc(100% - var(--margin-m));
   height: calc(100% - var(--margin-m));
   margin-right: var(--margin-m);
