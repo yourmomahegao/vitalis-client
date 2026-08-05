@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/custom-styles/elevated.css" />
 
     <link rel="stylesheet" href="css/chapters/servers/servers.css" />
+    <link rel="stylesheet" href="css/chapters/servers/no-servers.css" />
     <link rel="stylesheet" href="css/chapters/servers/add-server.css" />
   </head>
   <body no-transitions>
@@ -209,6 +210,18 @@
                   Add server
                 </button>
               </div>
+            </div>
+
+            <div class="no-servers-container">
+              <div class="no-servers-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database-icon lucide-database">
+                  <ellipse cx="12" cy="5" rx="9" ry="3" />
+                  <path d="M3 5V19A9 3 0 0 0 21 19V5" />
+                  <path d="M3 12A9 3 0 0 0 21 12" />
+                </svg>
+              </div>
+              <div class="no-servers-title">No servers have been added yet</div>
+              <div class="no-servers-description">Add a new server to start monitoring and access the dashboards</div>
             </div>
 
             <div class="custom-window add-server-custom-window" hidden title="Add server" width="500px" position="center center" icon='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-plus-icon lucide-server-plus"><path d="M12.5 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M16 12h6"/><path d="M19 9v6"/><path d="M22 18v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h8.5"/><path d="M6 18h.01"/><path d="M6 6h.01"/></svg>'>
