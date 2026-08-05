@@ -45,7 +45,7 @@ $(async function () {
     event.key === "Enter" ? $encryptionSignButton.trigger("click") : null;
   });
 
-  // Sign in using encryption key
+  // Sign in using encryption key (triggering "encryption-key-present" event when done)
   $encryptionSignButton.on("click", async function (event) {
     const userKey = $encryptionKey.val();
     $encryptionKey.val("");
@@ -60,6 +60,7 @@ $(async function () {
 
     Encrypt.SavedKey = userKey;
     HideEncryptionContainer();
+    $(document).trigger("encryption-key-present");
   });
 
   // Triggering create encryption key
@@ -67,7 +68,7 @@ $(async function () {
     event.key === "Enter" ? $newEncryptionCreateButton.trigger("click") : null;
   });
 
-  // Creating new encryption key
+  // Creating new encryption key (triggering "encryption-key-present" event when done)
   $newEncryptionCreateButton.on("click", async function (event) {
     const newKey = $newEncryptionKey.val();
     $newEncryptionKey.val("");
@@ -82,6 +83,7 @@ $(async function () {
 
     Encrypt.SavedKey = newKey;
     HideNewEncryptionContainer();
+    $(document).trigger("encryption-key-present");
   });
 
   // TODO: Implement reset key logic here
