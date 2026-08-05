@@ -17,7 +17,8 @@
 .main .sidebar-container.collapsed .sidebar-title span {
   display: none;
 }
-.main .sidebar-container.collapsed .chapter-buttons-container .chapter-button > span {
+.main .sidebar-container.collapsed .sidebar-buttons-container .chapter-button > span,
+.main .sidebar-container.collapsed .sidebar-buttons-container .action-button > span {
   display: none;
 }
 .main .sidebar-container {
@@ -66,7 +67,7 @@
 .main .sidebar-container .sidebar-title .sidebar-collapse-button {
   transition: opacity 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
 }
-.main .sidebar-container .chapter-buttons-container {
+.main .sidebar-container .sidebar-buttons-container {
   width: calc(100% - var(--margin-l) * 2);
   height: 100%;
   margin: var(--margin-l);
@@ -77,7 +78,8 @@
   flex-direction: column;
   gap: var(--gap-s);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button {
+.main .sidebar-container .sidebar-buttons-container .chapter-button,
+.main .sidebar-container .sidebar-buttons-container .action-button {
   cursor: pointer;
   position: relative;
   width: 100%;
@@ -93,7 +95,8 @@
   outline: none;
   transition: all 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button::before {
+.main .sidebar-container .sidebar-buttons-container .chapter-button::before,
+.main .sidebar-container .sidebar-buttons-container .action-button::before {
   content: "";
   position: absolute;
   width: 4px;
@@ -106,33 +109,47 @@
   border-radius: 999px;
   transition: all 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button > svg {
+.main .sidebar-container .sidebar-buttons-container .chapter-button > svg,
+.main .sidebar-container .sidebar-buttons-container .action-button > svg {
   width: 14px;
   height: 14px;
   color: var(--text);
   stroke: var(--text);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button > span {
+.main .sidebar-container .sidebar-buttons-container .chapter-button > svg.hidden,
+.main .sidebar-container .sidebar-buttons-container .action-button > svg.hidden {
+  display: none;
+}
+.main .sidebar-container .sidebar-buttons-container .chapter-button > span,
+.main .sidebar-container .sidebar-buttons-container .action-button > span {
   font-size: var(--font-s);
   font-weight: var(--font-weight-medium);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button.active {
+.main .sidebar-container .sidebar-buttons-container .chapter-button:hover,
+.main .sidebar-container .sidebar-buttons-container .action-button:hover {
+  background: var(--bg-alpha);
+}
+.main .sidebar-container .sidebar-buttons-container .chapter-button.active,
+.main .sidebar-container .sidebar-buttons-container .action-button.active {
   background: var(--main-minalpha);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button.active::before {
+.main .sidebar-container .sidebar-buttons-container .chapter-button.active::before,
+.main .sidebar-container .sidebar-buttons-container .action-button.active::before {
   height: 80%;
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button.active > svg {
+.main .sidebar-container .sidebar-buttons-container .chapter-button.active > svg,
+.main .sidebar-container .sidebar-buttons-container .action-button.active > svg {
   color: transparent;
   stroke: var(--main);
   fill: var(--main);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button.active > span {
+.main .sidebar-container .sidebar-buttons-container .chapter-button.active > span,
+.main .sidebar-container .sidebar-buttons-container .action-button.active > span {
   font-size: var(--font-s);
   font-weight: var(--font-weight-semibold);
   color: var(--main);
 }
-.main .sidebar-container .chapter-buttons-container .chapter-button[data-chapter-name=settings] {
+.main .sidebar-container .sidebar-buttons-container .chapter-button[data-chapter-name=settings] {
   margin-top: auto;
 }
 

@@ -1,7 +1,5 @@
 .main {
   .sidebar-container.collapsed {
-
-
     .sidebar-title:hover .sidebar-collapse-button {
       opacity: 1;
     }
@@ -27,7 +25,8 @@
       }
     }
 
-    .chapter-buttons-container .chapter-button > span {
+    .sidebar-buttons-container .chapter-button > span,
+    .sidebar-buttons-container .action-button > span {
       display: none;
     }
   }
@@ -90,7 +89,7 @@
       }
     }
 
-    .chapter-buttons-container {
+    .sidebar-buttons-container {
       width: calc(100% - var(--margin-l) * 2);
       height: 100%;
 
@@ -103,7 +102,8 @@
       flex-direction: column;
       gap: var(--gap-s);
 
-      .chapter-button {
+      .chapter-button,
+      .action-button {
         cursor: pointer;
 
         position: relative;
@@ -150,6 +150,10 @@
           height: 14px;
           color: var(--text);
           stroke: var(--text);
+
+          &.hidden {
+            display: none;
+          }
         }
 
         & > span {
@@ -158,7 +162,13 @@
         }
       }
 
-      .chapter-button.active {
+      .chapter-button:hover,
+      .action-button:hover {
+        background: var(--bg-alpha);
+      }
+
+      .chapter-button.active,
+      .action-button.active {
         background: var(--main-minalpha);
 
         &::before {
