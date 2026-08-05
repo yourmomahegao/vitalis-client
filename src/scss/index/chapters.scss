@@ -38,6 +38,85 @@
 
         background: var(--bg);
         border-radius: var(--border-radius-l);
+
+        .chapter-title {
+          width: calc(100% - var(--margin-xl) * 2);
+
+          margin: var(--margin-xl);
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-direction: row;
+
+          .chapter-name {
+            font-size: var(--font-xl);
+            font-weight: var(--font-weight-semibold);
+          }
+
+          .chapter-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-direction: row;
+            gap: var(--gap-m);
+
+            .chapter-action {
+              cursor: pointer;
+
+              padding: var(--padding-s) var(--padding-l);
+
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: row;
+              gap: var(--gap-xs);
+
+              border: none;
+              outline: none;
+              color: var(--text);
+              background: var(--bg-lightest);
+              border-radius: 999px;
+
+              font-size: var(--font-s);
+              font-weight: var(--font-weight-semibold);
+
+              box-shadow: var(--shadow-light);
+
+              transition: background 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+
+              &:hover {
+                background: var(--bg-lightest);
+              }
+
+              & > svg {
+                width: 16px;
+                height: 16px;
+
+                color: var(--text);
+                stroke: var(--text);
+
+                opacity: 0.6;
+              }
+
+              &.colored {
+                color: var(--text-static-light);
+                background: var(--main);
+
+                &:hover {
+                  background: var(--main-dark);
+                }
+
+                & > svg {
+                  color: var(--text-static-light);
+                  stroke: var(--text-static-light);
+
+                  opacity: 1;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
