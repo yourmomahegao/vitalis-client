@@ -1,15 +1,6 @@
 .main {
-  width: 100dvw;
-  height: 100dvh;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: row;
-
   .sidebar-container.collapsed {
-    min-width: auto;
-    max-width: auto;
+
 
     .sidebar-title:hover .sidebar-collapse-button {
       opacity: 1;
@@ -42,16 +33,15 @@
   }
 
   .sidebar-container {
-    min-width: 22%;
-    max-width: 30%;
-    height: 100%;
-
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
 
     background: var(--bg-light);
+    border-radius: var(--border-radius-l) 0 0 var(--border-radius-l);
+
+    position: relative;
 
     .sidebar-title {
       position: relative;
@@ -191,15 +181,6 @@
       .chapter-button[data-chapter-name="settings"] {
         margin-top: auto;
       }
-    }
-  }
-
-  .chapters-container {
-    min-width: 70%;
-    max-width: 78%;
-
-    &.hidden {
-      display: none;
     }
   }
 }

@@ -1,5 +1,6 @@
-var vitalisClient = new VitalisClient()
-
 $(function () {
-  vitalisClient.Initialize();
+  const $body = $("body");
+  setTimeout(() => {
+    $body[0].removeAttribute("no-transitions");
+  }, 100);
 });

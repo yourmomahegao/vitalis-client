@@ -8,7 +8,7 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-  background: var(--bg);
+  background: transparent;
   overflow: hidden;
 }
 

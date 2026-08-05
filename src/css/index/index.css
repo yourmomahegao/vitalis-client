@@ -1,0 +1,36 @@
+body[no-transitions] {
+  transition: none !important;
+}
+body[no-transitions] * {
+  transition: none !important;
+}
+
+.main {
+  position: relative;
+  width: 100dvw;
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(24%, 240px) 1fr;
+  grid-template-rows: 40px 1fr;
+  grid-template-areas: "sidebar titlebar" "sidebar  chapters";
+  border-radius: 0 0 var(--border-radius-m) var(--border-radius-m);
+  overflow: visible;
+  transition: grid-template-columns 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+}
+.main:has(.sidebar-container.collapsed) {
+  grid-template-columns: minmax(calc(var(--padding-m) * 2 + var(--padding-l) * 2 + 14px), calc(var(--padding-m) * 2 + var(--padding-l) * 2 + 14px)) 1fr;
+}
+
+.titlebar-container {
+  grid-area: titlebar;
+}
+
+.sidebar-container {
+  grid-area: sidebar;
+}
+
+.chapters-container {
+  grid-area: chapters;
+}
+
+/*# sourceMappingURL=index.css.map */
