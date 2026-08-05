@@ -47,9 +47,13 @@
   stroke: var(--text);
 }
 .chapters-container .encryption-container .encryption-sub-container .encryption-title,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-title,
 .chapters-container .encryption-container .new-encryption-sub-container .encryption-title,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-title,
 .chapters-container .new-encryption-container .encryption-sub-container .encryption-title,
-.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-title {
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-title,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-title,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-title {
   max-width: 100%;
   text-align: center;
   font-size: var(--font-l);
@@ -57,9 +61,13 @@
   color: var(--text);
 }
 .chapters-container .encryption-container .encryption-sub-container .encryption-description,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-description,
 .chapters-container .encryption-container .new-encryption-sub-container .encryption-description,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-description,
 .chapters-container .new-encryption-container .encryption-sub-container .encryption-description,
-.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-description {
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-description,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-description,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-description {
   max-width: 80%;
   margin-top: calc(var(--margin-xs) * -1);
   text-align: center;
@@ -69,16 +77,47 @@
   opacity: 0.6;
 }
 .chapters-container .encryption-container .encryption-sub-container .encryption-key,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-key,
 .chapters-container .encryption-container .new-encryption-sub-container .encryption-key,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-key,
 .chapters-container .new-encryption-container .encryption-sub-container .encryption-key,
-.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-key {
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-key,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-key,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-key {
   margin-top: var(--margin-m);
   min-width: 340px;
 }
+.chapters-container .encryption-container .encryption-sub-container .encryption-error,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-error,
+.chapters-container .encryption-container .new-encryption-sub-container .encryption-error,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-error,
+.chapters-container .new-encryption-container .encryption-sub-container .encryption-error,
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-error,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-error,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-error {
+  text-align: center;
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-medium);
+  color: var(--red);
+}
+.chapters-container .encryption-container .encryption-sub-container .encryption-error.hidden,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-error.hidden,
+.chapters-container .encryption-container .new-encryption-sub-container .encryption-error.hidden,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-error.hidden,
+.chapters-container .new-encryption-container .encryption-sub-container .encryption-error.hidden,
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-error.hidden,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-error.hidden,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-error.hidden {
+  display: none;
+}
 .chapters-container .encryption-container .encryption-sub-container .encryption-actions,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-actions,
 .chapters-container .encryption-container .new-encryption-sub-container .encryption-actions,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-actions,
 .chapters-container .new-encryption-container .encryption-sub-container .encryption-actions,
-.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-actions {
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-actions,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-actions,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-actions {
   margin-top: var(--margin-s);
   display: flex;
   align-items: center;
@@ -87,16 +126,24 @@
   gap: var(--gap-xs);
 }
 .chapters-container .encryption-container .encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key,
 .chapters-container .encryption-container .new-encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key,
 .chapters-container .new-encryption-container .encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key,
-.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key {
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key {
   background: var(--bg-alpha);
   color: var(--text);
 }
 .chapters-container .encryption-container .encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key > svg,
+.chapters-container .encryption-container .encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key > svg,
 .chapters-container .encryption-container .new-encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key > svg,
+.chapters-container .encryption-container .new-encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key > svg,
 .chapters-container .new-encryption-container .encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key > svg,
-.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key > svg {
+.chapters-container .new-encryption-container .encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key > svg,
+.chapters-container .new-encryption-container .new-encryption-sub-container .encryption-actions .encryption-action.reset-encryption-key > svg,
+.chapters-container .new-encryption-container .new-encryption-sub-container .new-encryption-actions .encryption-action.reset-encryption-key > svg {
   color: var(--text);
   stroke: var(--text);
 }

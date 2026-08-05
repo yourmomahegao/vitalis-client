@@ -49,7 +49,8 @@
         }
       }
 
-      .encryption-title {
+      .encryption-title,
+      .new-encryption-title {
         max-width: 100%;
 
         text-align: center;
@@ -58,7 +59,8 @@
         color: var(--text);
       }
 
-      .encryption-description {
+      .encryption-description,
+      .new-encryption-description {
         max-width: 80%;
 
         margin-top: calc(var(--margin-xs) * -1);
@@ -70,13 +72,27 @@
         opacity: 0.6;
       }
 
-      .encryption-key {
+      .encryption-key,
+      .new-encryption-key {
         margin-top: var(--margin-m);
 
         min-width: 340px;
       }
 
-      .encryption-actions {
+      .encryption-error,
+      .new-encryption-error {
+        text-align: center;
+        font-size: var(--font-s);
+        font-weight: var(--font-weight-medium);
+        color: var(--red);
+
+        &.hidden {
+          display: none;
+        }
+      }
+
+      .encryption-actions,
+      .new-encryption-actions {
         margin-top: var(--margin-s);
 
         display: flex;

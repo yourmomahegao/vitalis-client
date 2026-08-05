@@ -1,26 +1,27 @@
-const Encryption = {};
-Encryption.EncryptionKeyCheckData = "KEY_VALID";
-Encryption.EncryptionKeyCheckFilepath = path.join(app.getPath("userData"), ".encryption-key-check");
-Encryption.EncryptionSaltFilepath = path.join(app.getPath("userData"), ".encryption-salt");
+const Encrypt = {};
+Encrypt.SavedKey = "";
+Encrypt.EncryptionKeyCheckData = "KEY_VALID";
+Encrypt.EncryptionKeyCheckFilepath = path.join(app.getPath("userData"), ".encryption-key-check");
+Encrypt.EncryptionSaltFilepath = path.join(app.getPath("userData"), ".encryption-salt");
 
-Encryption.getEncryptionSalt = function() {
-  if (fs.existsSync(Encryption.EncryptionSaltFilepath)) {
-    return fs.readFileSync(Encryption.EncryptionSaltFilepath);
+Encrypt.getEncryptionSalt = function () {
+  if (fs.existsSync(Encrypt.EncryptionSaltFilepath)) {
+    return fs.readFileSync(Encrypt.EncryptionSaltFilepath);
   }
 
   const salt = crypto.randomBytes(16);
-  fs.writeFileSync(Encryption.EncryptionSaltFilepath, salt);
+  fs.writeFileSync(Encrypt.EncryptionSaltFilepath, salt);
   return salt;
-}
+};
 
-const encryptionSalt = Encryption.getEncryptionSalt();
+const encryptionSalt = Encrypt.getEncryptionSalt();
 
-Encryption.deriveKey = function(key) {
+Encrypt.deriveKey = function (key) {
   return crypto.scryptSync(String(key), encryptionSalt, 32);
-}
+};
 
-Encryption.encryptData = function (key, data) {
-  const derivedKey = Encryption.deriveKey(key);
+Encrypt.encryptData = function (key, data) {
+  const derivedKey = Encrypt.deriveKey(key);
   const iv = crypto.randomBytes(12);
 
   const cipher = crypto.createCipheriv("aes-256-gcm", derivedKey, iv);
@@ -30,8 +31,8 @@ Encryption.encryptData = function (key, data) {
   return Buffer.concat([iv, authTag, encrypted]).toString("base64");
 };
 
-Encryption.decryptData = function (key, data) {
-  const derivedKey = Encryption.deriveKey(key);
+Encrypt.decryptData = function (key, data) {
+  const derivedKey = Encrypt.deriveKey(key);
   const payload = Buffer.from(data, "base64");
 
   if (payload.length < 28) {
@@ -48,16 +49,27 @@ Encryption.decryptData = function (key, data) {
   return Buffer.concat([decipher.update(encrypted), decipher.final()]).toString("utf8");
 };
 
-Encryption.saveEncryptionKey = async function (key) {
+Encrypt.isEncryptionKeyExists = async function () {
+  try {
+    await fsa.access(Encrypt.EncryptionKeyCheckFilepath);
+    return true;
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+};
+
+Encrypt.saveEncryptionKey = async function (key) {
   let encryptedFileData;
   try {
-    encryptedFileData = Encryption.encryptData(key, Encryption.EncryptionKeyCheckData);
+    encryptedFileData = Encrypt.encryptData(key, Encrypt.EncryptionKeyCheckData);
   } catch (err) {
     return { status: false, message: err.message };
   }
 
   try {
-    await fsa.writeFile(Encryption.EncryptionKeyCheckFilepath, encryptedFileData, "utf8");
+    await fsa.writeFile(Encrypt.EncryptionKeyCheckFilepath, encryptedFileData, "utf8");
   } catch (err) {
     return { status: false, message: err.message };
   }
@@ -65,22 +77,22 @@ Encryption.saveEncryptionKey = async function (key) {
   return { status: true, message: null };
 };
 
-Encryption.checkEncryptionKey = async function (key) {
+Encrypt.checkEncryptionKey = async function (key) {
   let fileData;
   try {
-    fileData = await fsa.readFile(Encryption.EncryptionKeyCheckFilepath, "utf8");
+    fileData = await fsa.readFile(Encrypt.EncryptionKeyCheckFilepath, "utf8");
   } catch (err) {
     return { status: false, message: err.message };
   }
 
   let decryptedFileData;
   try {
-    decryptedFileData = Encryption.decryptData(key, fileData);
+    decryptedFileData = Encrypt.decryptData(key, fileData);
   } catch (err) {
     return { status: false, message: "Wrong encryption key" };
   }
 
-  if (decryptedFileData !== Encryption.EncryptionKeyCheckData) {
+  if (decryptedFileData !== Encrypt.EncryptionKeyCheckData) {
     return { status: false, message: "Wrong encryption key" };
   }
 
