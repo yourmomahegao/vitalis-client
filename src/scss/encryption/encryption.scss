@@ -1,5 +1,6 @@
 .chapters-container {
-  .encryption-container {
+  .encryption-container,
+  .new-encryption-container {
     position: absolute;
 
     top: 0;
@@ -21,11 +22,79 @@
 
     z-index: 999;
 
-    .encryption-sub-container {
+    &.hidden {
+      display: none;
+    }
+
+    .encryption-sub-container,
+    .new-encryption-sub-container {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      gap: var(--gap-m);
+
+      .encryption-icon {
+        padding: var(--padding-l);
+
+        background: var(--bg-alpha);
+        border-radius: var(--border-radius-l);
+
+        & > svg {
+          width: 24px;
+          height: 24px;
+
+          color: var(--text);
+          stroke: var(--text);
+        }
+      }
+
+      .encryption-title {
+        max-width: 100%;
+
+        text-align: center;
+        font-size: var(--font-l);
+        font-weight: var(--font-weight-bold);
+        color: var(--text);
+      }
+
+      .encryption-description {
+        max-width: 80%;
+
+        margin-top: calc(var(--margin-xs) * -1);
+
+        text-align: center;
+        font-size: var(--font-s);
+        font-weight: var(--font-weight-medium);
+        color: var(--text);
+        opacity: 0.6;
+      }
+
+      .encryption-key {
+        margin-top: var(--margin-m);
+
+        min-width: 340px;
+      }
+
+      .encryption-actions {
+        margin-top: var(--margin-s);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        gap: var(--gap-xs);
+
+        .encryption-action.reset-encryption-key {
+          background: var(--bg-alpha);
+          color: var(--text);
+
+          & > svg {
+            color: var(--text);
+            stroke: var(--text);
+          }
+        }
+      }
     }
   }
 }

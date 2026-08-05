@@ -107,7 +107,7 @@
       </div>
 
       <div class="chapters-container">
-        <div class="encryption-container">
+        <div class="encryption-container hidden">
           <div class="encryption-sub-container">
             <div class="encryption-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round-icon lucide-key-round">
@@ -115,10 +115,53 @@
                 <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
               </svg>
             </div>
-            <div class="encryption-title">Sign in with encryption key</div>
-            <div class="encryption-description">To access the application to need to provide encryption key</div>
+            <div class="encryption-title">Sign in using the encryption key</div>
+            <div class="encryption-description">Provide an encryption key to access the application</div>
             <input class="encryption-key" data-style="elevated" type="password" />
-            <button class="encryption-key-button" data-style="elevated">Sign in</button>
+
+            <div class="encryption-actions">
+              <button class="encryption-action sign-encryption-key" data-style="elevated">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+                Sign in
+              </button>
+
+              <button class="encryption-action reset-encryption-key" data-style="elevated">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash">
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+                Reset key
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="new-encryption-container">
+          <div class="new-encryption-sub-container">
+            <div class="encryption-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round-icon lucide-key-round">
+                <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+              </svg>
+            </div>
+            <div class="encryption-title">Create a new encryption key</div>
+            <div class="encryption-description">Please create a new encryption key. It will be used to access the application in the future.</div>
+            <input class="encryption-key" data-style="elevated" type="password" />
+
+            <div class="encryption-actions">
+              <button class="encryption-action create-encryption-key" data-style="elevated">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save-icon lucide-save">
+                  <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+                  <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+                  <path d="M7 3v4a1 1 0 0 0 1 1h7" />
+                </svg>
+                Create key
+              </button>
+            </div>
           </div>
         </div>
 
@@ -217,7 +260,7 @@
     <script src="js/lib/database.js"></script>
     <script src="js/lib/theme.js"></script>
     <script src="js/lib/custom-window.js"></script>
-    <script src="js/lib/encryption.js"></script>
+    <script src="js/lib/encrypt.js"></script>
 
     <script src="js/titlebar/titlebar.js"></script>
 
