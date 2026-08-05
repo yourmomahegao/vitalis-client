@@ -7,8 +7,42 @@
   justify-content: flex-start;
   flex-direction: row;
 
+  .sidebar-container.collapsed {
+    min-width: auto;
+    max-width: auto;
+
+    .sidebar-title:hover .sidebar-collapse-button {
+      opacity: 1;
+    }
+
+    .sidebar-title:not(:hover) .sidebar-collapse-button {
+      opacity: 0;
+    }
+
+    .sidebar-title .sidebar-collapse-button {
+      right: -16px;
+
+      svg {
+        rotate: 180deg;
+      }
+    }
+
+    .sidebar-title {
+      align-items: center;
+      justify-content: center;
+
+      span {
+        display: none;
+      }
+    }
+
+    .chapter-buttons-container .chapter-button > span {
+      display: none;
+    }
+  }
+
   .sidebar-container {
-    min-width: 20%;
+    min-width: 22%;
     max-width: 30%;
     height: 100%;
 
@@ -20,8 +54,12 @@
     background: var(--bg-light);
 
     .sidebar-title {
+      position: relative;
+
+      width: calc(100% - var(--margin-l) * 2);
+
       margin: var(--margin-l);
-      margin-bottom: 0;
+      margin-bottom: var(--margin-xxs);
 
       display: flex;
       align-items: center;
@@ -30,17 +68,39 @@
       gap: var(--gap-s);
 
       img {
-        width: 28px;
-        height: 28px;
+        width: 22px;
+        height: 22px;
       }
 
       span {
         font-size: var(--font-m);
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-semibold);
+      }
+
+      .sidebar-collapse-button {
+        position: absolute;
+
+        cursor: pointer;
+
+        right: 0;
+
+        border: none;
+        outline: none;
+        background: transparent;
+
+        svg {
+          width: 18px;
+          height: 18px;
+          opacity: 0.6;
+          color: var(--text);
+          stroke: var(--text);
+        }
+
+        transition: opacity 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
       }
     }
 
-    .sidebar-chapters {
+    .chapter-buttons-container {
       width: calc(100% - var(--margin-l) * 2);
       height: 100%;
 
@@ -51,14 +111,16 @@
       align-items: flex-start;
       justify-content: flex-start;
       flex-direction: column;
-      gap: var(--gap-m);
+      gap: var(--gap-s);
 
       .chapter-button {
         cursor: pointer;
 
+        position: relative;
+
         width: 100%;
 
-        padding: var(--padding-s) var(--padding-m);
+        padding: var(--padding-m) var(--padding-m);
 
         display: flex;
         align-items: center;
@@ -66,16 +128,38 @@
         flex-direction: row;
         gap: var(--gap-xs);
 
-        background: var(--bg-lightest);
-        border-radius: var(--border-radius-xs);
+        background: transparent;
+        border-radius: var(--border-radius-s);
         border: none;
         outline: none;
 
+        transition: all 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+
+        &::before {
+          content: "";
+          position: absolute;
+
+          width: 4px;
+          height: 0%;
+
+          margin-left: calc(var(--margin-s) * -1);
+
+          align-self: center;
+          justify-self: center;
+
+          left: 0;
+
+          background: var(--main);
+          border-radius: 999px;
+
+          transition: all 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+        }
+
         & > svg {
-          width: 16px;
-          height: 16px;
+          width: 14px;
+          height: 14px;
           color: var(--text);
-          opacity: 0.6;
+          stroke: var(--text);
         }
 
         & > span {
@@ -83,11 +167,39 @@
           font-weight: var(--font-weight-medium);
         }
       }
+
+      .chapter-button.active {
+        background: var(--main-minalpha);
+
+        &::before {
+          height: 80%;
+        }
+
+        & > svg {
+          color: transparent;
+          stroke: var(--main);
+          fill: var(--main);
+        }
+
+        & > span {
+          font-size: var(--font-s);
+          font-weight: var(--font-weight-semibold);
+          color: var(--main);
+        }
+      }
+
+      .chapter-button[data-chapter-name="settings"] {
+        margin-top: auto;
+      }
     }
   }
 
   .chapters-container {
     min-width: 70%;
-    max-width: 80%;
+    max-width: 78%;
+
+    &.hidden {
+      display: none;
+    }
   }
 }

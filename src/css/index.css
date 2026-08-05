@@ -6,8 +6,34 @@
   justify-content: flex-start;
   flex-direction: row;
 }
+.main .sidebar-container.collapsed {
+  min-width: auto;
+  max-width: auto;
+}
+.main .sidebar-container.collapsed .sidebar-title:hover .sidebar-collapse-button {
+  opacity: 1;
+}
+.main .sidebar-container.collapsed .sidebar-title:not(:hover) .sidebar-collapse-button {
+  opacity: 0;
+}
+.main .sidebar-container.collapsed .sidebar-title .sidebar-collapse-button {
+  right: -16px;
+}
+.main .sidebar-container.collapsed .sidebar-title .sidebar-collapse-button svg {
+  rotate: 180deg;
+}
+.main .sidebar-container.collapsed .sidebar-title {
+  align-items: center;
+  justify-content: center;
+}
+.main .sidebar-container.collapsed .sidebar-title span {
+  display: none;
+}
+.main .sidebar-container.collapsed .chapter-buttons-container .chapter-button > span {
+  display: none;
+}
 .main .sidebar-container {
-  min-width: 20%;
+  min-width: 22%;
   max-width: 30%;
   height: 100%;
   display: flex;
@@ -17,8 +43,10 @@
   background: var(--bg-light);
 }
 .main .sidebar-container .sidebar-title {
+  position: relative;
+  width: calc(100% - var(--margin-l) * 2);
   margin: var(--margin-l);
-  margin-bottom: 0;
+  margin-bottom: var(--margin-xxs);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -26,14 +54,32 @@
   gap: var(--gap-s);
 }
 .main .sidebar-container .sidebar-title img {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
 }
 .main .sidebar-container .sidebar-title span {
   font-size: var(--font-m);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
 }
-.main .sidebar-container .sidebar-chapters {
+.main .sidebar-container .sidebar-title .sidebar-collapse-button {
+  position: absolute;
+  cursor: pointer;
+  right: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+.main .sidebar-container .sidebar-title .sidebar-collapse-button svg {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+  color: var(--text);
+  stroke: var(--text);
+}
+.main .sidebar-container .sidebar-title .sidebar-collapse-button {
+  transition: opacity 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+}
+.main .sidebar-container .chapter-buttons-container {
   width: calc(100% - var(--margin-l) * 2);
   height: 100%;
   margin: var(--margin-l);
@@ -42,35 +88,72 @@
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-  gap: var(--gap-m);
+  gap: var(--gap-s);
 }
-.main .sidebar-container .sidebar-chapters .chapter-button {
+.main .sidebar-container .chapter-buttons-container .chapter-button {
   cursor: pointer;
+  position: relative;
   width: 100%;
-  padding: var(--padding-s) var(--padding-m);
+  padding: var(--padding-m) var(--padding-m);
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
   gap: var(--gap-xs);
-  background: var(--bg-lightest);
-  border-radius: var(--border-radius-xs);
+  background: transparent;
+  border-radius: var(--border-radius-s);
   border: none;
   outline: none;
+  transition: all 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
 }
-.main .sidebar-container .sidebar-chapters .chapter-button > svg {
-  width: 16px;
-  height: 16px;
+.main .sidebar-container .chapter-buttons-container .chapter-button::before {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 0%;
+  margin-left: calc(var(--margin-s) * -1);
+  align-self: center;
+  justify-self: center;
+  left: 0;
+  background: var(--main);
+  border-radius: 999px;
+  transition: all 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+}
+.main .sidebar-container .chapter-buttons-container .chapter-button > svg {
+  width: 14px;
+  height: 14px;
   color: var(--text);
-  opacity: 0.6;
+  stroke: var(--text);
 }
-.main .sidebar-container .sidebar-chapters .chapter-button > span {
+.main .sidebar-container .chapter-buttons-container .chapter-button > span {
   font-size: var(--font-s);
   font-weight: var(--font-weight-medium);
 }
+.main .sidebar-container .chapter-buttons-container .chapter-button.active {
+  background: var(--main-minalpha);
+}
+.main .sidebar-container .chapter-buttons-container .chapter-button.active::before {
+  height: 80%;
+}
+.main .sidebar-container .chapter-buttons-container .chapter-button.active > svg {
+  color: transparent;
+  stroke: var(--main);
+  fill: var(--main);
+}
+.main .sidebar-container .chapter-buttons-container .chapter-button.active > span {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-semibold);
+  color: var(--main);
+}
+.main .sidebar-container .chapter-buttons-container .chapter-button[data-chapter-name=settings] {
+  margin-top: auto;
+}
 .main .chapters-container {
   min-width: 70%;
-  max-width: 80%;
+  max-width: 78%;
+}
+.main .chapters-container.hidden {
+  display: none;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -15,11 +15,19 @@
         <div class="sidebar-title">
           <img src="./../src/assets/icons/app/vitalis-client-256.png" alt="" />
           <span>Vitalis Client</span>
+
+          <button class="sidebar-collapse-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-to-line-icon lucide-arrow-left-to-line">
+              <path d="M3 19V5" />
+              <path d="m13 6-6 6 6 6" />
+              <path d="M7 12h14" />
+            </svg>
+          </button>
         </div>
 
-        <div class="sidebar-chapters">
-          <button class="chapter-button" data-chapter-name="dashboard">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard">
+        <div class="chapter-buttons-container">
+          <button class="chapter-button active" data-chapter-name="dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard">
               <rect width="7" height="9" x="3" y="3" rx="1" />
               <rect width="7" height="5" x="14" y="3" rx="1" />
               <rect width="7" height="9" x="14" y="12" rx="1" />
@@ -29,7 +37,7 @@
           </button>
 
           <button class="chapter-button" data-chapter-name="servers">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
               <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
               <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
               <line x1="6" x2="6.01" y1="6" y2="6" />
@@ -37,17 +45,27 @@
             </svg>
             <span>Servers</span>
           </button>
+
+          <button class="chapter-button" data-chapter-name="settings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings">
+              <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span>Settings</span>
+          </button>
         </div>
       </div>
 
       <div class="chapters-container">
-        <div class="chapter" data-chapter-name="dashboard"></div>
-        <div class="chapter" data-chapter-name="servers"></div>
+        <div class="chapter-container" data-chapter-name="dashboard"></div>
+        <div class="chapter-container hidden" data-chapter-name="servers"></div>
       </div>
     </div>
 
     <script src="js/lib.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/sidebar/sidebar-collapse.js"></script>
+    <script src="js/sidebar/sidebar-chapters.js"></script>
     <script src="js/vitalis-client.js"></script>
     <script src="js/main.js"></script>
   </body>
