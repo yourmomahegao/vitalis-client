@@ -1,4 +1,4 @@
-.add-server-container {
+.chapter-container[data-chapter-name=servers] .add-server-container {
   width: calc(100% - var(--padding-l) * 2);
   height: calc(100% - var(--padding-l) * 2);
   padding: var(--padding-l);
@@ -8,7 +8,7 @@
   flex-direction: column;
   gap: var(--gap-xl);
 }
-.add-server-container .add-server-fields {
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-fields {
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -16,13 +16,14 @@
   flex-direction: column;
   gap: var(--gap-l);
 }
-.add-server-container .add-server-fields label {
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-fields label {
   margin-bottom: calc(var(--gap-l) * -1 + var(--gap-xxs));
 }
-.add-server-container .add-server-fields input, .add-server-container .add-server-fields select {
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-fields input,
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-fields select {
   width: 100%;
 }
-.add-server-container .add-server-actions {
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-actions {
   width: 100%;
   margin-top: auto;
   display: flex;
@@ -30,6 +31,29 @@
   justify-content: flex-end;
   flex-direction: row;
   gap: var(--gap-l);
+}
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-actions #add-server-test-connection {
+  background: var(--bg-lightest);
+  color: var(--text);
+}
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-actions #add-server-test-connection svg {
+  color: var(--text);
+  stroke: var(--text);
+}
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-message {
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-normal);
+}
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-message.hidden {
+  display: none;
+}
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-message[data-test-status=true] {
+  color: var(--green);
+}
+.chapter-container[data-chapter-name=servers] .add-server-container .add-server-message[data-test-status=false] {
+  color: var(--red);
 }
 
 /*# sourceMappingURL=add-server.css.map */

@@ -108,7 +108,7 @@
       </div>
 
       <div class="chapters-container">
-        <div class="encryption-container hidden">
+        <!-- <div class="encryption-container hidden">
           <div class="encryption-sub-container">
             <div class="encryption-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round-icon lucide-key-round">
@@ -166,7 +166,7 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="chapter-container hidden" data-chapter-name="dashboard">
           <div class="chapter-sub-container">
@@ -212,7 +212,7 @@
               </div>
             </div>
 
-            <div class="no-servers-container">
+            <!-- <div class="no-servers-container">
               <div class="no-servers-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database-icon lucide-database">
                   <ellipse cx="12" cy="5" rx="9" ry="3" />
@@ -222,11 +222,44 @@
               </div>
               <div class="no-servers-title">No servers have been added yet</div>
               <div class="no-servers-description">Add a new server to start monitoring and access the dashboards</div>
+            </div> -->
+
+            <div class="servers-container hidden">
+              <div class="server-container">
+                <div class="server-icon">
+                  <img src="./icons/server-default.svg" alt="" />
+                </div>
+
+                <div class="server-info">
+                  <div class="server-online online"></div>
+                  <div class="server-name">Test Server</div>
+                </div>
+
+                <div class="server-additional-infos">
+                  <div class="server-additional-info server-schema">
+                    <span class="label">Schema:</span>
+                    <span class="value">http://</span>
+                  </div>
+
+                  <div class="server-additional-info server-address">
+                    <span class="label">Address:</span>
+                    <span class="value">127.0.0.1</span>
+                  </div>
+
+                  <div class="server-additional-info server-port">
+                    <span class="label">Port:</span>
+                    <span class="value">8080</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="custom-window add-server-custom-window" hidden title="Add server" width="500px" position="center center" icon='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-plus-icon lucide-server-plus"><path d="M12.5 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M16 12h6"/><path d="M19 9v6"/><path d="M22 18v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h8.5"/><path d="M6 18h.01"/><path d="M6 6h.01"/></svg>'>
               <div class="add-server-container">
                 <div class="add-server-fields">
+                  <label data-style="elevated" for="label" title="Server label">Label</label>
+                  <input data-style="elevated" id="address" type="text" placeholder="My Server" />
+
                   <label data-style="elevated" for="address" title="The address of the server where Vitalis is running">Address</label>
                   <input data-style="elevated" id="address" type="text" placeholder="127.0.0.1" />
 
@@ -243,7 +276,20 @@
                   </select>
                 </div>
 
+                <div class="add-server-message hidden" data-test-status="true"></div>
+
                 <div class="add-server-actions">
+                  <button data-style="elevated" id="add-server-test-connection">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio-icon lucide-radio">
+                      <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                      <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                      <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                      <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                      <circle cx="12" cy="12" r="2" />
+                    </svg>
+                    Test connection
+                  </button>
+
                   <button data-style="elevated" id="add-server-apply">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                       <path d="M5 12h14" />

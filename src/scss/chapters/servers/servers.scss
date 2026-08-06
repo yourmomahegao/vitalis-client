@@ -1,0 +1,117 @@
+.chapter-container[data-chapter-name="servers"] {
+  .servers-container {
+    width: calc(100% - var(--margin-xl) * 2);
+    max-height: calc(100% - var(--margin-xl) * 2);
+
+    margin: var(--margin-xl);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    align-items: start;
+    gap: var(--gap-l);
+
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .server-container {
+      cursor: pointer;
+
+      padding: var(--padding-xl);
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: column;
+      gap: var(--gap-s);
+
+      background: var(--bg-light);
+      border-radius: var(--border-radius-m);
+
+      transition: background 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+
+      &.hidden {
+        display: none;
+      }
+
+      &:hover {
+        background: var(--bg-lighter);
+      }
+
+      .server-icon {
+        width: 48px;
+        height: 48px;
+
+        flex-shrink: 0;
+
+        border-radius: 999px;
+
+        overflow: hidden;
+      }
+
+      .server-info {
+        margin-top: var(--margin-m);
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        gap: var(--gap-xs);
+
+        .server-online {
+          width: 8px;
+          height: 8px;
+
+          background: var(--grey);
+          border-radius: 999px;
+
+          &.online {
+            background: var(--green);
+          }
+
+          &.offline {
+            background: var(--green);
+          }
+        }
+
+        .server-name {
+          color: var(--text);
+          font-size: var(--font-m);
+          font-weight: var(--font-weight-semibold);
+        }
+      }
+
+      .server-additional-infos {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+        gap: var(--gap-xxs);
+
+        .server-additional-info {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-direction: row;
+          gap: var(--gap-xxs);
+
+          .label {
+            font-size: var(--font-xs);
+            font-weight: var(--font-weight-medium);
+            color: var(--text);
+            opacity: 0.8;
+          }
+
+          .value {
+            font-size: var(--font-xs);
+            font-weight: var(--font-weight-normal);
+            color: var(--text);
+            opacity: 0.6;
+          }
+        }
+      }
+    }
+  }
+}

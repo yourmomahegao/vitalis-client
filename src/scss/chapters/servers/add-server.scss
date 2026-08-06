@@ -1,42 +1,75 @@
-.add-server-container {
-  width: calc(100% - var(--padding-l) * 2);
-  height: calc(100% - var(--padding-l) * 2);
+.chapter-container[data-chapter-name="servers"] {
+  .add-server-container {
+    width: calc(100% - var(--padding-l) * 2);
+    height: calc(100% - var(--padding-l) * 2);
 
-  padding: var(--padding-l);
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: var(--gap-xl);
-
-  .add-server-fields {
-    width: 100%;
+    padding: var(--padding-l);
 
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    gap: var(--gap-l);
+    gap: var(--gap-xl);
 
-    label {
-      margin-bottom: calc(var(--gap-l) * -1 + var(--gap-xxs));
+    .add-server-fields {
+      width: 100%;
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: column;
+      gap: var(--gap-l);
+
+      label {
+        margin-bottom: calc(var(--gap-l) * -1 + var(--gap-xxs));
+      }
+
+      input,
+      select {
+        width: 100%;
+      }
     }
 
-    input, select {
+    .add-server-actions {
       width: 100%;
-    }    
-  }
 
-  .add-server-actions {
-    width: 100%;
+      margin-top: auto;
 
-    margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-direction: row;
+      gap: var(--gap-l);
 
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-direction: row;
-    gap: var(--gap-l);
+      #add-server-test-connection {
+        background: var(--bg-lightest);
+        color: var(--text);
+
+        svg {
+          color: var(--text);
+          stroke: var(--text);
+        }
+      }
+    }
+
+    .add-server-message {
+      width: 100%;
+
+      text-align: center;
+      font-size: var(--font-xs);
+      font-weight: var(--font-weight-normal);
+
+      &.hidden {
+        display: none;
+      }
+
+      &[data-test-status="true"] {
+        color: var(--green);
+      }
+
+      &[data-test-status="false"] {
+        color: var(--red);
+      }
+    }
   }
 }

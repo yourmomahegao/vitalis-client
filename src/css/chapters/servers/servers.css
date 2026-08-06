@@ -1,3 +1,91 @@
-
+.chapter-container[data-chapter-name=servers] .servers-container {
+  width: calc(100% - var(--margin-xl) * 2);
+  max-height: calc(100% - var(--margin-xl) * 2);
+  margin: var(--margin-xl);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  align-items: start;
+  gap: var(--gap-l);
+  overflow: auto;
+}
+.chapter-container[data-chapter-name=servers] .servers-container::-webkit-scrollbar {
+  display: none;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container {
+  cursor: pointer;
+  padding: var(--padding-xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-s);
+  background: var(--bg-light);
+  border-radius: var(--border-radius-m);
+  transition: background 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container.hidden {
+  display: none;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container:hover {
+  background: var(--bg-lighter);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-info {
+  margin-top: var(--margin-m);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: var(--gap-xs);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-info .server-online {
+  width: 8px;
+  height: 8px;
+  background: var(--grey);
+  border-radius: 999px;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-info .server-online.online {
+  background: var(--green);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-info .server-online.offline {
+  background: var(--green);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-info .server-name {
+  color: var(--text);
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-semibold);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-additional-infos {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-xxs);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-additional-infos .server-additional-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: var(--gap-xxs);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-additional-infos .server-additional-info .label {
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--text);
+  opacity: 0.8;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-additional-infos .server-additional-info .value {
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-normal);
+  color: var(--text);
+  opacity: 0.6;
+}
 
 /*# sourceMappingURL=servers.css.map */
