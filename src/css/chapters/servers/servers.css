@@ -16,6 +16,7 @@
 }
 .chapter-container[data-chapter-name=servers] .servers-container .server-container {
   cursor: pointer;
+  position: relative;
   padding: var(--padding-xl);
   display: flex;
   align-items: flex-start;
@@ -35,9 +36,17 @@
 .chapter-container[data-chapter-name=servers] .servers-container .server-container .server-icon {
   width: 48px;
   height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   border-radius: 999px;
   overflow: hidden;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-icon img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
 }
 .chapter-container[data-chapter-name=servers] .servers-container .server-container .server-info {
   margin-top: var(--margin-m);
@@ -89,6 +98,32 @@
   font-weight: var(--font-weight-normal);
   color: var(--text);
   opacity: 0.6;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-open-actions {
+  cursor: pointer;
+  position: absolute;
+  margin: var(--padding-xl);
+  top: 0;
+  right: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-radius: 999px;
+  transition: background 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-open-actions:hover {
+  background: var(--bg-alpha);
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-open-actions:hover svg {
+  opacity: 1;
+}
+.chapter-container[data-chapter-name=servers] .servers-container .server-container .server-open-actions svg {
+  width: 22px;
+  height: 22px;
+  color: var(--text);
+  stroke: var(--text);
+  opacity: 0.6;
+  transition: opacity 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99);
 }
 
 /*# sourceMappingURL=servers.css.map */
