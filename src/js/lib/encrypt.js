@@ -1,4 +1,5 @@
 const Encrypt = {};
+Encrypt.KeyReady = false;
 Encrypt.SavedKey = "";
 Encrypt.EncryptionKeyCheckData = "KEY_VALID";
 Encrypt.EncryptionKeyCheckFilepath = path.join(app.getPath("userData"), ".encryption-key-check");
@@ -98,3 +99,7 @@ Encrypt.checkEncryptionKey = async function (key) {
 
   return { status: true, message: null };
 };
+
+$(document).on("encryption-key-present", function () {
+  Encrypt.KeyReady = true;
+});

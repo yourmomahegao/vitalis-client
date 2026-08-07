@@ -11,6 +11,9 @@
 .chapter-container[data-chapter-name=servers] .servers-container::-webkit-scrollbar {
   display: none;
 }
+.chapter-container[data-chapter-name=servers] .servers-container.hidden {
+  display: none;
+}
 .chapter-container[data-chapter-name=servers] .servers-container .server-container {
   cursor: pointer;
   padding: var(--padding-xl);
