@@ -1,3 +1,5 @@
+var Servers = [];
+
 $(document).ready(function () {
   const $serverChapter = $('.chapter-container[data-chapter-name="servers"]');
   const $serversContainer = $serverChapter.find(".servers-container");
@@ -221,6 +223,16 @@ $(document).ready(function () {
                   </div>
                 </div>
               </div>`);
+
+    Servers.push({
+      id: _id,
+      icon: icon,
+      label: label,
+      address: address,
+      port: port,
+      secretKey: secretKey,
+      schema: schema,
+    });
 
     $serversContainer.append($newServer);
     UpdateNoServers();
