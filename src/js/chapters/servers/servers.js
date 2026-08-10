@@ -1,18 +1,60 @@
 var Servers = [];
 
-$(document).ready(function () {
-  // ==========================================================
-  // Global
-  // ==========================================================
+var ServersConfig = {
+  DefaultServerIconPath: "./../src/icons/server-default.svg",
+};
 
-  const $serverChapter = $('.chapter-container[data-chapter-name="servers"]');
-  const $serversContainer = $serverChapter.find(".servers-container");
-  const $noServersContainer = $serverChapter.find(".no-servers-container");
+class Server {
+  constructor($serverContainer, id, icon, label, address, port, secretKey, schema) {
+    this.$ServerContainer = $serverContainer;
+    this.Id = id;
+    this.Icon = icon;
+    this.Label = label;
+    this.Address = address;
+    this.Port = port;
+    this.SecretKey = secretKey;
+    this.Schema = schema;
 
-  const defaultServerIconPath = "./../src/icons/server-default.svg";
-  let serversInitialized = false;
+    this.$ServerOpenActions = this.$ServerContainer.find(".server-open-actions");
+    this.$ServerChapter = $('.chapter-container[data-chapter-name="servers"]');
+    this.$ServerMenu = this.$ServerChapter.find(".server-menu");
 
-  async function Base64ToServerIcon(base64Data, quality = 80) {
+    this.$ServerOpenActions.on("click", { self: this }, this.#Handler__OpenActions);
+  }
+
+  async UpdateStatus() {}
+
+  async Update() {
+    await UpdateStatus();
+  }
+
+  OpenMenu() {
+    // TODO: CONTINUE HERE
+    const serverContainerDimensions = {
+      top: this.$ServerContainer?.[0]?.offsetTop,
+      left: this.$ServerContainer?.[0]?.offsetLeft,
+      width: this.$ServerContainer?.outerWidth(),
+      height: this.$ServerContainer?.outerWidth(),
+    };
+
+    this.$ServerMenu.css("top", serverContainerDimensions.top);
+    this.$ServerMenu.css("left", serverContainerDimensions.left + serverContainerDimensions.width);
+    this.$ServerMenu.removeClass("hidden");
+  }
+
+  #Handler__OpenActions(event) {
+    const self = event.data.self;
+    self.OpenMenu();
+  }
+}
+class ServersManager {
+  constructor() {
+    this.$ServerChapter = $('.chapter-container[data-chapter-name="servers"]');
+    this.$ServersContainer = this.$ServerChapter.find(".servers-container");
+    this.$NoServersContainer = this.$ServerChapter.find(".no-servers-container");
+  }
+
+  async Base64ToServerIcon(base64Data, quality = 80) {
     const cleanBase64 = base64Data.replace(/^data:image\/\w+;base64,/, "");
     const cleanBuffer = Buffer.from(cleanBase64, "base64");
 
@@ -22,7 +64,7 @@ $(document).ready(function () {
     return outputBuffer.toString("base64");
   }
 
-  async function GetImageDimensions(source) {
+  async GetImageDimensions(source) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
@@ -31,7 +73,7 @@ $(document).ready(function () {
     });
   }
 
-  async function SaveServer(icon, label, address, port, secretKey, schema) {
+  async SaveServer(icon, label, address, port, secretKey, schema) {
     let addressEncoded;
     let portEncoded;
     let secretKeyEncoded;
@@ -63,7 +105,7 @@ $(document).ready(function () {
     return { status: true, message: "Server was successfully added to the database", data: serverInsertData };
   }
 
-  async function GetAllServers() {
+  async GetAllServers() {
     const serversGetAllQuery = SQLite.Database.prepare(`SELECT *
                                                         FROM vt_servers
                                                         ORDER BY id DESC;`);
@@ -75,6 +117,11 @@ $(document).ready(function () {
 
       for (const serverIndex in serversData) {
         const serverData = serversData[serverIndex];
+
+        const addressEncoded = serverData?.address_encoded;
+        const portEncoded = serverData?.port_encoded;
+        const secretKeyEncoded = serverData?.secret_key_encoded;
+
         serversData[serverIndex].address = Encrypt.decryptData(Encrypt.SavedKey, addressEncoded);
         serversData[serverIndex].port = Encrypt.decryptData(Encrypt.SavedKey, portEncoded);
         serversData[serverIndex].secretKey = Encrypt.decryptData(Encrypt.SavedKey, secretKeyEncoded);
@@ -84,145 +131,18 @@ $(document).ready(function () {
     return serversData;
   }
 
-  function UpdateNoServers() {
-    const serversAmount = $serversContainer.find(".server-container").length;
+  UpdateNoServers() {
+    const serversAmount = this.$ServersContainer.find(".server-container").length;
     if (serversAmount == 0) {
-      $noServersContainer.removeClass("hidden");
-      $serversContainer.addClass("hidden");
+      this.$NoServersContainer.removeClass("hidden");
+      this.$ServersContainer.addClass("hidden");
     } else {
-      $noServersContainer.addClass("hidden");
-      $serversContainer.removeClass("hidden");
+      this.$NoServersContainer.addClass("hidden");
+      this.$ServersContainer.removeClass("hidden");
     }
   }
 
-  function AddServer(_id, icon, label, address, port, secretKey, schema) {
-    const $newServer = $(`<div class="server-container" data-id="${_id ?? -1}">
-                <div class="server-icon">
-                  <img src="${icon ?? defaultServerIconPath}" alt="" />
-                </div>
-
-                <div class="server-info">
-                  <div class="server-online online"></div>
-                  <div class="server-name">${label ?? "No label"}</div>
-                </div>
-
-                <div class="server-additional-infos">
-                  <div class="server-additional-info server-schema">
-                    <span class="label">Schema:</span>
-                    <span class="value">${schema ?? "No schema"}</span>
-                  </div>
-
-                  <div class="server-additional-info server-address">
-                    <span class="label">Address:</span>
-                    <span class="value">${address ?? "No address"}</span>
-                  </div>
-
-                  <div class="server-additional-info server-port">
-                    <span class="label">Port:</span>
-                    <span class="value">${port ?? "No port"}</span>
-                  </div>
-                </div>
-
-                <button class="server-open-actions">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-icon lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                </button>
-              </div>`);
-
-    Servers.push({
-      id: _id,
-      icon: icon,
-      label: label,
-      address: address,
-      port: port,
-      secretKey: secretKey,
-      schema: schema,
-    });
-
-    $serversContainer.append($newServer);
-    UpdateNoServers();
-  }
-
-  async function UpdateServers() {
-    $serversContainer.empty();
-    const allServers = await GetAllServers();
-
-    for (const serverData of allServers) {
-      AddServer(serverData?.id, serverData?.icon, serverData?.label, serverData?.address, serverData?.port, serverData?.secret_key, serverData?.schema);
-    }
-
-    UpdateNoServers();
-  }
-
-  // Checking for encryption key to be ready
-  const ServerInitializationInterval = setInterval(async function () {
-    if (serversInitialized) {
-      clearInterval(ServerInitializationInterval);
-      return;
-    }
-
-    if (!Encrypt.KeyReady) {
-      return;
-    }
-
-    await UpdateServers();
-
-    serversInitialized = true;
-    clearInterval(ServerInitializationInterval);
-  }, 100);
-
-  // ==========================================================
-  // Add server
-  // ==========================================================
-
-  const $addServerButton = $(".chapter-container .chapter-sub-container .chapter-actions .chapter-action.add-server-button");
-  const $addServerCustomWindow = $(".add-server-custom-window");
-  const $addServerContainer = $(".add-server-container");
-  const $addServerActions = $addServerContainer.find(".add-server-actions");
-  const $addServerMessage = $addServerContainer.find(".add-server-message");
-  const $addServerApplyButton = $addServerActions.find("#add-server-apply");
-  const $addServerTestConnection = $addServerActions.find("#add-server-test-connection");
-
-  const $addServerFields = $(".add-server-fields");
-  const $addServerFieldIconSelector = $addServerFields.find(".icon-selector");
-  const $addServerIconPreview = $addServerFieldIconSelector.find("#icon-preview");
-  const $addServerIcon = $addServerFieldIconSelector.find("#icon");
-  const $addServerFieldLabel = $addServerFields.find("#label");
-  const $addServerFieldAddress = $addServerFields.find("#address");
-  const $addServerFieldPort = $addServerFields.find("#port");
-  const $addServerFieldSecretKey = $addServerFields.find("#secret-key");
-  const $addServerFieldSchema = $addServerFields.find("#schema");
-
-  function ShowAddServerWindow() {
-    $addServerCustomWindow.removeClass("hidden");
-  }
-
-  function HideAddServerWindow() {
-    $addServerCustomWindow.addClass("hidden");
-  }
-
-  function ResetAddServerContainer() {
-    $addServerFieldLabel.val("");
-    $addServerFieldAddress.val("");
-    $addServerFieldPort.val("");
-    $addServerFieldSecretKey.val("");
-    $addServerFieldSchema.find("option:first-child").prop("selected", true);
-    ResetAddServerMessage();
-    $addServerIconPreview.attr("src", defaultServerIconPath);
-  }
-
-  function ResetAddServerMessage() {
-    $addServerMessage.text("");
-    $addServerMessage.attr("data-test-status", true);
-    $addServerMessage.addClass("hidden");
-  }
-
-  function UpdateAddServerMessage(status, message) {
-    $addServerMessage.text(message);
-    $addServerMessage.attr("data-test-status", status);
-    $addServerMessage.removeClass("hidden");
-  }
-
-  async function TestServerConnection(address, port, secretKey, schema) {
+  async TestServerConnection(address, port, secretKey, schema) {
     const path = `/worker/status/`;
     const url = `${schema}${address}:${port}${path}`;
 
@@ -282,9 +202,128 @@ $(document).ready(function () {
     return { status: true, message: "The server is ready to work" };
   }
 
-  // When server icon was changed in "Add server" container
-  $addServerIcon.on("change", async function (event) {
-    const files = $addServerIcon.prop("files");
+  AddServer(_id, icon, label, address, port, secretKey, schema) {
+    const $newServer = $(`<div class="server-container" data-id="${_id ?? -1}">
+                <div class="server-icon">
+                  <img src="${icon ?? ServersConfig.DefaultServerIconPath}" alt="" />
+                </div>
+
+                <div class="server-info">
+                  <div class="server-online online"></div>
+                  <div class="server-name">${label ?? "No label"}</div>
+                </div>
+
+                <div class="server-additional-infos">
+                  <div class="server-additional-info server-schema">
+                    <span class="label">Schema:</span>
+                    <span class="value">${schema ?? "No schema"}</span>
+                  </div>
+
+                  <div class="server-additional-info server-address">
+                    <span class="label">Address:</span>
+                    <span class="value">${address ?? "No address"}</span>
+                  </div>
+
+                  <div class="server-additional-info server-port">
+                    <span class="label">Port:</span>
+                    <span class="value">${port ?? "No port"}</span>
+                  </div>
+                </div>
+
+                <button class="server-open-actions">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-icon lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                </button>
+              </div>`);
+
+    const newServer = new Server($newServer, _id, icon, label, address, port, secretKey, schema);
+    Servers.push(newServer);
+
+    this.$ServersContainer.append($newServer);
+    this.UpdateNoServers();
+  }
+
+  async UpdateServers() {
+    this.$ServersContainer.empty();
+    const allServers = await this.GetAllServers();
+
+    for (const serverData of allServers) {
+      this.AddServer(serverData?.id, serverData?.icon, serverData?.label, serverData?.address, serverData?.port, serverData?.secret_key, serverData?.schema);
+    }
+
+    this.UpdateNoServers();
+  }
+}
+
+class ServerAddManager {
+  constructor() {
+    this.$AddServerButton = $(".chapter-container .chapter-sub-container .chapter-actions .chapter-action.add-server-button");
+    this.$AddServerCustomWindow = $(".add-server-custom-window");
+    this.$AddServerContainer = $(".add-server-container");
+    this.$AddServerActions = this.$AddServerContainer.find(".add-server-actions");
+    this.$AddServerMessage = this.$AddServerContainer.find(".add-server-message");
+    this.$AddServerApplyButton = this.$AddServerActions.find("#add-server-apply");
+    this.$AddServerTestConnection = this.$AddServerActions.find("#add-server-test-connection");
+
+    this.$AddServerFields = $(".add-server-fields");
+    this.$AddServerFieldIconSelector = this.$AddServerFields.find(".icon-selector");
+    this.$AddServerIconPreview = this.$AddServerFieldIconSelector.find("#icon-preview");
+    this.$AddServerIcon = this.$AddServerFieldIconSelector.find("#icon");
+    this.$AddServerFieldLabel = this.$AddServerFields.find("#label");
+    this.$AddServerFieldAddress = this.$AddServerFields.find("#address");
+    this.$AddServerFieldPort = this.$AddServerFields.find("#port");
+    this.$AddServerFieldSecretKey = this.$AddServerFields.find("#secret-key");
+    this.$AddServerFieldSchema = this.$AddServerFields.find("#schema");
+
+    // When server icon was changed in "Add server" container
+    this.$AddServerIcon.on("change", { self: this }, this.#Handler__AddServerIconChange);
+
+    // When "Add server" button was clicked
+    this.$AddServerButton.on("click", { self: this }, this.#Handler__AddServerButtonClick);
+
+    // When "Test connection" button was clicked in "Add server" container
+    this.$AddServerTestConnection.on("click", { self: this }, this.#Handler__AddServerTestConnectionClick);
+
+    // When server icon was clicked in "Add server" container
+    this.$AddServerIcon.on("click", { self: this }, this.#Handler__AddServerIconClick);
+
+    // When user's trying to add new server
+    this.$AddServerApplyButton.on("click", { self: this }, this.#Handler__AddServerApplyButtonClick);
+  }
+
+  ShowAddServerWindow() {
+    this.$AddServerCustomWindow.removeClass("hidden");
+  }
+
+  HideAddServerWindow() {
+    this.$AddServerCustomWindow.addClass("hidden");
+  }
+
+  ResetAddServerContainer() {
+    this.$AddServerFieldLabel.val("");
+    this.$AddServerFieldAddress.val("");
+    this.$AddServerFieldPort.val("");
+    this.$AddServerFieldSecretKey.val("");
+    this.$AddServerFieldSchema.find("option:first-child").prop("selected", true);
+    this.$AddServerIconPreview.attr("src", ServersConfig.DefaultServerIconPath);
+    this.ResetAddServerMessage();
+  }
+
+  ResetAddServerMessage() {
+    this.$AddServerMessage.text("");
+    this.$AddServerMessage.attr("data-test-status", true);
+    this.$AddServerMessage.addClass("hidden");
+  }
+
+  UpdateAddServerMessage(status, message) {
+    this.$AddServerMessage.text(message);
+    this.$AddServerMessage.attr("data-test-status", status);
+    this.$AddServerMessage.removeClass("hidden");
+  }
+
+  async #Handler__AddServerIconChange(event) {
+    const self = event.data.self;
+
+    const files = self.$AddServerIcon.prop("files");
 
     if (files.length === 0) {
       return;
@@ -302,7 +341,7 @@ $(document).ready(function () {
     reader.onload = async function (event) {
       // Converting image to webp buffer
       const uploadedImageSource = event.target.result;
-      const uploadedImageDimesions = await GetImageDimensions(uploadedImageSource);
+      const uploadedImageDimesions = await self.GetImageDimensions(uploadedImageSource);
 
       // Checking for maximum dimensions
       if (uploadedImageDimesions.width > 1024 || uploadedImageDimesions.height > 1024) {
@@ -312,7 +351,7 @@ $(document).ready(function () {
 
       // Converting and applying image to icon preview
       try {
-        const webpBase64 = await Base64ToServerIcon(uploadedImageSource);
+        const webpBase64 = await self.Base64ToServerIcon(uploadedImageSource);
         $addServerIconPreview.attr("src", webpBase64);
       } catch {
         new Notification("Image conversion error occured!", Notification.Type.ERROR, 7000).Show();
@@ -321,118 +360,143 @@ $(document).ready(function () {
     };
 
     reader.readAsDataURL(uploadedImage);
-  });
+  }
 
-  // When "Add server" button was clicked
-  $addServerButton.on("click", function (event) {
+  #Handler__AddServerButtonClick(event) {
+    const self = event.data.self;
+
     if (!Encrypt.KeyReady) {
       new Notification("User's encryption key is not ready yet!", Notification.Type.WARNING, 7000).Show();
       return;
     }
 
-    ResetAddServerContainer();
-    ShowAddServerWindow();
-  });
+    self.ResetAddServerContainer();
+    self.ShowAddServerWindow();
+  }
 
-  // When "Test connection" button was clicked in "Add server" container
-  $addServerTestConnection.on("click", async function () {
-    const address = $addServerFieldAddress.val();
-    const port = $addServerFieldPort.val();
-    const secretKey = $addServerFieldSecretKey.val();
-    const schema = $addServerFieldSchema.find("option:selected").attr("value");
+  async #Handler__AddServerTestConnectionClick(event) {
+    const self = event.data.self;
 
-    const testResult = await TestServerConnection(address, port, secretKey, schema);
+    const address = self.$AddServerFieldAddress.val();
+    const port = self.$AddServerFieldPort.val();
+    const secretKey = self.$AddServerFieldSecretKey.val();
+    const schema = self.$AddServerFieldSchema.find("option:selected").attr("value");
+
+    const testResult = await serversManager.TestServerConnection(address, port, secretKey, schema);
 
     if (testResult.status == false) {
-      UpdateAddServerMessage(testResult.status, testResult.message);
+      self.UpdateAddServerMessage(testResult.status, testResult.message);
       return;
     }
 
-    UpdateAddServerMessage(true, "Server is valid");
-  });
+    self.UpdateAddServerMessage(true, "Server is valid");
+  }
 
-  // When server icon was clicked in "Add server" container
-  $addServerIcon.on("click", async function () {});
+  async #Handler__AddServerIconClick(event) {
+    const self = event.data.self;
+  }
 
-  // When user's trying to add new server
-  $addServerApplyButton.on("click", async function (event) {
+  async #Handler__AddServerApplyButtonClick(event) {
+    const self = event.data.self;
+
     if (!Encrypt.KeyReady) {
       new Notification("User's encryption key is not ready yet!", Notification.Type.WARNING, 7000).Show();
       return;
     }
 
-    const icon = $addServerIconPreview.attr("src");
-    const label = $addServerFieldLabel.val();
-    const address = $addServerFieldAddress.val();
-    const port = $addServerFieldPort.val();
-    const secretKey = $addServerFieldSecretKey.val();
-    const schema = $addServerFieldSchema.find("option:selected").attr("value");
+    const icon = self.$AddServerIconPreview.attr("src");
+    const label = self.$AddServerFieldLabel.val();
+    const address = self.$AddServerFieldAddress.val();
+    const port = self.$AddServerFieldPort.val();
+    const secretKey = self.$AddServerFieldSecretKey.val();
+    const schema = self.$AddServerFieldSchema.find("option:selected").attr("value");
 
     if (!icon) {
-      UpdateAddServerMessage(false, "Server icon is not specified");
-      $addServerFieldIconSelector.addClass("error");
+      self.UpdateAddServerMessage(false, "Server icon is not specified");
+      self.$AddServerFieldIconSelector.addClass("error");
       return;
     } else {
-      $addServerFieldIconSelector.removeClass("error");
+      self.$AddServerFieldIconSelector.removeClass("error");
     }
 
     if (!label) {
-      UpdateAddServerMessage(false, "Server label is not specified");
-      $addServerFieldLabel.addClass("error");
+      self.UpdateAddServerMessage(false, "Server label is not specified");
+      self.$AddServerFieldLabel.addClass("error");
       return;
     } else {
-      $addServerFieldLabel.removeClass("error");
+      self.$AddServerFieldLabel.removeClass("error");
     }
 
     if (!address) {
-      UpdateAddServerMessage(false, "Server address is not specified");
-      $addServerFieldAddress.addClass("error");
+      self.UpdateAddServerMessage(false, "Server address is not specified");
+      self.$AddServerFieldAddress.addClass("error");
       return;
     } else {
-      $addServerFieldAddress.removeClass("error");
+      self.$AddServerFieldAddress.removeClass("error");
     }
 
     if (!port) {
-      UpdateAddServerMessage(false, "Server port is not specified");
-      $addServerFieldPort.addClass("error");
+      self.UpdateAddServerMessage(false, "Server port is not specified");
+      self.$AddServerFieldPort.addClass("error");
       return;
     } else {
-      $addServerFieldPort.removeClass("error");
+      self.$AddServerFieldPort.removeClass("error");
     }
 
     if (!secretKey) {
-      UpdateAddServerMessage(false, "Server secret key is not specified");
-      $addServerFieldSecretKey.addClass("error");
+      self.UpdateAddServerMessage(false, "Server secret key is not specified");
+      self.$AddServerFieldSecretKey.addClass("error");
       return;
     } else {
-      $addServerFieldSecretKey.removeClass("error");
+      self.$AddServerFieldSecretKey.removeClass("error");
     }
 
     if (!schema) {
-      UpdateAddServerMessage(false, "Server schema is not specified");
-      $addServerFieldSchema.addClass("error");
+      self.UpdateAddServerMessage(false, "Server schema is not specified");
+      self.$AddServerFieldSchema.addClass("error");
       return;
     } else {
-      $addServerFieldSchema.removeClass("error");
+      self.$AddServerFieldSchema.removeClass("error");
     }
 
     // Saving server inside the database
-    const saveServerResult = await SaveServer(icon, label, address, port, secretKey, schema);
+    const saveServerResult = await serversManager.SaveServer(icon, label, address, port, secretKey, schema);
 
     if (saveServerResult.status == false) {
-      UpdateAddServerMessage(saveServerResult.status, saveServerResult.message);
+      self.UpdateAddServerMessage(saveServerResult.status, saveServerResult.message);
       return;
     }
 
     // Adding server inside "Servers" chapter
     const serverData = saveServerResult?.data ?? {};
-    AddServer(serverData?.id, serverData?.icon, serverData?.label, serverData?.address, serverData?.port, serverData?.secret_key, serverData?.schema);
+    serversManager.AddServer(serverData?.id, serverData?.icon, serverData?.label, serverData?.address, serverData?.port, serverData?.secret_key, serverData?.schema);
 
-    HideAddServerWindow();
-  });
+    self.HideAddServerWindow();
+  }
+}
 
-  // ==========================================================
-  // Remove server
-  // ==========================================================
-  // Not implemented yet
+var serversManager = null;
+var serverAddManager = null;
+$(document).ready(function () {
+  serversManager = new ServersManager();
+  serverAddManager = new ServerAddManager();
+
+  let serversInitialized = false;
+
+  // Checking for encryption key to be ready
+  const ServerInitializationInterval = setInterval(async function () {
+    if (serversInitialized) {
+      clearInterval(ServerInitializationInterval);
+      return;
+    }
+
+    if (!Encrypt.KeyReady) {
+      return;
+    }
+
+    await serversManager.UpdateServers();
+
+    serversInitialized = true;
+    clearInterval(ServerInitializationInterval);
+  }, 100);
 });

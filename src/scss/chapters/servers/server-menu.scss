@@ -1,0 +1,52 @@
+.chapter-container[data-chapter-name="servers"] {
+  .server-menu {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    padding: var(--padding-s);
+
+    background: var(--bg-lighter);
+    box-shadow: var(--shadow-light);
+    border-radius: var(--border-radius-m);
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    z-index: 5;
+
+    &.hidden {
+      display: none;
+    }
+
+    .server-menu-button {
+      cursor: pointer;
+
+      padding: var(--padding-xs) var(--padding-m);
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: row;
+      gap: var(--gap-xs);
+
+      border: none;
+      outline: none;
+      background: transparent;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        color: var(--text);
+        stroke: var(--text);
+        opacity: 0.4;
+      }
+
+      &:hover {
+        background: var(--bg-lightest);
+        border-radius: var(--border-radius-xs);
+      }
+    }
+  }
+}

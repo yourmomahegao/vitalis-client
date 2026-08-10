@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/chapters/servers/servers.css" />
     <link rel="stylesheet" href="css/chapters/servers/no-servers.css" />
     <link rel="stylesheet" href="css/chapters/servers/add-server.css" />
+    <link rel="stylesheet" href="css/chapters/servers/server-menu.css" />
   </head>
   <body no-transitions>
     <div class="main">
@@ -210,6 +211,37 @@
                   Add server
                 </button>
               </div>
+            </div>
+
+            <div class="server-menu hidden">
+              <button class="server-menu-button" data-menu-action="refresh-server">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw-icon lucide-refresh-cw">
+                  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                  <path d="M21 3v5h-5" />
+                  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                  <path d="M8 16H3v5" />
+                </svg>
+                Refresh server
+              </button>
+
+              <button class="server-menu-button" data-menu-action="edit-server">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil">
+                  <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                  <path d="m15 5 4 4" />
+                </svg>
+                Edit server
+              </button>
+
+              <button class="server-menu-button" data-menu-action="delete-server">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
+                  <path d="M10 11v6" />
+                  <path d="M14 11v6" />
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+                Delete server
+              </button>
             </div>
 
             <div class="no-servers-container">
