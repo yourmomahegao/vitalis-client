@@ -10,6 +10,8 @@
     align-items: start;
     gap: var(--gap-l);
 
+    border-radius: var(--border-radius-m);
+
     overflow: auto;
 
     &::-webkit-scrollbar {

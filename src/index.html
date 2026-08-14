@@ -17,6 +17,8 @@
 
     <link rel="stylesheet" href="css/custom-styles/elevated.css" />
 
+    <link rel="stylesheet" href="css/chapters/dashboard/server-not-selected.css" />
+
     <link rel="stylesheet" href="css/chapters/servers/servers.css" />
     <link rel="stylesheet" href="css/chapters/servers/no-servers.css" />
     <link rel="stylesheet" href="css/chapters/servers/add-server.css" />
@@ -51,10 +53,10 @@
           <span>Vitalis Client</span>
 
           <button class="sidebar-collapse-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-to-line-icon lucide-arrow-left-to-line">
-              <path d="M3 19V5" />
-              <path d="m13 6-6 6 6 6" />
-              <path d="M7 12h14" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-open-icon lucide-panel-left-open">
+              <rect width="18" height="18" x="3" y="3" rx="2" />
+              <path d="M9 3v18" />
+              <path d="m14 9 3 3-3 3" />
             </svg>
           </button>
         </div>
@@ -175,6 +177,17 @@
               <div class="chapter-name">Dashboard</div>
               <div class="chapter-actions"></div>
             </div>
+
+            <div class="server-not-selected-container">
+              <div class="server-not-selected-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge-icon lucide-gauge">
+                  <path d="m12 14 4-4" />
+                  <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+                </svg>
+              </div>
+              <div class="server-not-selected-title">Server not selected</div>
+              <div class="server-not-selected-description">To get the metrics, open the required server via the "Servers" tab</div>
+            </div>
           </div>
         </div>
 
@@ -214,6 +227,15 @@
             </div>
 
             <div class="server-menu hidden">
+              <button class="server-menu-button" data-menu-action="open-server">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link-icon lucide-external-link">
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </svg>
+                Open in dashboard
+              </button>
+
               <button class="server-menu-button" data-menu-action="refresh-server">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw-icon lucide-refresh-cw">
                   <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
@@ -224,7 +246,7 @@
                 Refresh server
               </button>
 
-              <button class="server-menu-button" data-menu-action="edit-server">
+              <button class="server-menu-button" disabled data-menu-action="edit-server">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil">
                   <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
                   <path d="m15 5 4 4" />

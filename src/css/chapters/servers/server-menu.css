@@ -24,6 +24,9 @@
   border: none;
   outline: none;
   background: transparent;
+  border-radius: var(--border-radius-xs);
+  color: var(--text);
+  transition: color 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99), stroke 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99), background 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99);
 }
 .chapter-container[data-chapter-name=servers] .server-menu .server-menu-button svg {
   width: 16px;
@@ -32,9 +35,25 @@
   stroke: var(--text);
   opacity: 0.4;
 }
+.chapter-container[data-chapter-name=servers] .server-menu .server-menu-button[data-menu-action=delete-server] {
+  color: var(--red);
+}
+.chapter-container[data-chapter-name=servers] .server-menu .server-menu-button[data-menu-action=delete-server] svg {
+  color: var(--red);
+  stroke: var(--red);
+}
+.chapter-container[data-chapter-name=servers] .server-menu .server-menu-button[data-menu-action=delete-server]:hover {
+  background: var(--red-full-alpha);
+}
 .chapter-container[data-chapter-name=servers] .server-menu .server-menu-button:hover {
   background: var(--bg-lightest);
-  border-radius: var(--border-radius-xs);
+}
+.chapter-container[data-chapter-name=servers] .server-menu .server-menu-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+.chapter-container[data-chapter-name=servers] .server-menu .server-menu-button:disabled:hover {
+  background: transparent;
 }
 
 /*# sourceMappingURL=server-menu.css.map */

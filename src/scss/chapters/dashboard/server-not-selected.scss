@@ -1,0 +1,58 @@
+.chapter-container[data-chapter-name="dashboard"] {
+  .server-not-selected-container {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--gap-m);
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 3;
+
+    &.hidden {
+      display: none;
+    }
+
+    .server-not-selected-icon {
+      padding: var(--padding-l);
+
+      background: var(--bg-alpha);
+      border-radius: var(--border-radius-l);
+
+      & > svg {
+        width: 24px;
+        height: 24px;
+
+        color: var(--text);
+        stroke: var(--text);
+      }
+    }
+
+    .server-not-selected-title {
+      max-width: 100%;
+
+      text-align: center;
+      font-size: var(--font-l);
+      font-weight: var(--font-weight-bold);
+      color: var(--text);
+    }
+
+    .server-not-selected-description {
+      max-width: 80%;
+
+      margin-top: calc(var(--margin-xs) * -1);
+
+      text-align: center;
+      font-size: var(--font-s);
+      font-weight: var(--font-weight-medium);
+      color: var(--text);
+      opacity: 0.6;
+    }
+  }
+}

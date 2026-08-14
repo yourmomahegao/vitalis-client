@@ -12,7 +12,7 @@
       right: -16px;
 
       svg {
-        rotate: 180deg;
+        rotate: 0deg;
       }
     }
 
@@ -83,6 +83,7 @@
           opacity: 0.6;
           color: var(--text);
           stroke: var(--text);
+          rotate: 180deg;
         }
 
         transition: opacity 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);

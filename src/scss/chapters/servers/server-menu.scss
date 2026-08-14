@@ -34,6 +34,13 @@
       border: none;
       outline: none;
       background: transparent;
+      border-radius: var(--border-radius-xs);
+      color: var(--text);
+
+      transition:
+        color 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99),
+        stroke 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99),
+        background 0.2s cubic-bezier(0.34, 0.05, 0.13, 0.99);
 
       svg {
         width: 16px;
@@ -43,9 +50,30 @@
         opacity: 0.4;
       }
 
+      &[data-menu-action="delete-server"] {
+        color: var(--red);
+
+        svg {
+          color: var(--red);
+          stroke: var(--red);
+        }
+
+        &:hover {
+          background: var(--red-full-alpha);
+        }
+      }
+
       &:hover {
         background: var(--bg-lightest);
-        border-radius: var(--border-radius-xs);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+
+        &:hover {
+          background: transparent;
+        }
       }
     }
   }

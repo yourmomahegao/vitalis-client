@@ -5,7 +5,8 @@ var ServersConfig = {
 };
 
 class Server {
-  constructor($serverContainer, id, icon, label, address, port, secretKey, schema) {
+  constructor($serversContainer, $serverContainer, id, icon, label, address, port, secretKey, schema) {
+    this.$ServersContainer = $serversContainer;
     this.$ServerContainer = $serverContainer;
     this.Id = id;
     this.Icon = icon;
@@ -15,36 +16,208 @@ class Server {
     this.SecretKey = secretKey;
     this.Schema = schema;
 
+    this.UpdateDelay = 5000;
+    this.UpdateInterval = null;
+
     this.$ServerOpenActions = this.$ServerContainer.find(".server-open-actions");
     this.$ServerChapter = $('.chapter-container[data-chapter-name="servers"]');
     this.$ServerMenu = this.$ServerChapter.find(".server-menu");
 
     this.$ServerOpenActions.on("click", { self: this }, this.#Handler__OpenActions);
+    this.$ServerMenu.on("click", '.server-menu-button[data-menu-action="delete-server"]', { self: this }, this.#Handler__DeleteServerClick);
+    this.$ServerMenu.on("click", '.server-menu-button[data-menu-action="refresh-server"]', { self: this }, this.#Handler__RefreshServerClick);
   }
 
-  async UpdateStatus() {}
+  async GetStatus() {
+    const path = `/worker/status/`;
+    const url = `${this.Schema}${this.Address}:${this.Port}${path}`;
+
+    let response = null;
+    try {
+      response = await fetch(url, {
+        method: "GET",
+        signal: AbortSignal.timeout(1000),
+      });
+    } catch {}
+
+    if (response == null) {
+      return { status: false, message: "Couldn't send a request to the server" };
+    }
+
+    let data = null;
+    try {
+      data = await response.json();
+    } catch {}
+
+    if (data == null) {
+      return { status: false, message: "Failed to receive response data from the server" };
+    }
+
+    if (data.status != true) {
+      return { status: false, message: "Server responded, but reported it isn't ready" };
+    }
+
+    return { status: true, message: "The server is ready to work" };
+  }
+
+  async UpdateStatus() {
+    const serverStatus = await this.GetStatus();
+
+    if (!serverStatus.status) {
+      this.$ServerContainer.find(".server-info .server-online").removeClass("online");
+      return;
+    }
+
+    this.$ServerContainer.find(".server-info .server-online").addClass("online");
+  }
 
   async Update() {
-    await UpdateStatus();
+    await this.UpdateStatus();
+  }
+
+  async Preload() {
+    const self = this;
+
+    await this.Update();
+
+    if (!this.UpdateInterval) {
+      this.UpdateInterval = setInterval(function () {
+        self.Update();
+      }, this.UpdateDelay);
+    }
+  }
+
+  DeleteElement() {
+    this.$ServerContainer.remove();
+  }
+
+  DeleteObject() {
+    const serverIndex = Servers.indexOf(this);
+    if (serverIndex > -1) {
+      Servers.splice(serverIndex, 1);
+    }
+  }
+
+  async Delete() {
+    const serverDeleteQuery = SQLite.Database.prepare(
+      `DELETE FROM vt_servers
+       WHERE id=?`,
+    );
+
+    serverDeleteQuery.run(this.Id);
+
+    this.DeleteElement();
+    this.DeleteObject();
+  }
+
+  IsMenuOpened() {
+    return !this.$ServerMenu.hasClass("hidden");
+  }
+
+  GetMenuDimensions() {
+    const itemEl = this.$ServerContainer?.[0];
+    const menuParentEl = this.$ServerMenu?.[0]?.offsetParent;
+
+    if (!itemEl || !menuParentEl) return {};
+
+    const itemRect = itemEl.getBoundingClientRect();
+    const parentRect = menuParentEl.getBoundingClientRect();
+
+    const dimensions = {
+      top: itemRect.top - parentRect.top + menuParentEl.scrollTop,
+      left: itemRect.left - parentRect.left + menuParentEl.scrollLeft,
+      width: this.$ServerContainer?.outerWidth(),
+      height: this.$ServerContainer?.outerHeight(),
+    };
+
+    return dimensions;
+  }
+
+  ApplyMenuDimenstions(dimensions) {
+    const serversContainerRect = this.$ServersContainer[0].getBoundingClientRect();
+    const serversContainerTop = serversContainerRect.top;
+    const serversContainerLeft = serversContainerRect.left;
+    const serversContainerWidth = this.$ServersContainer.width();
+    const serversContainerHeight = this.$ServersContainer.height();
+    const serverMenuWidth = this.$ServerMenu.width();
+
+    this.$ServerMenu.css("top", dimensions.top);
+
+    if (dimensions.left + dimensions.width + 12 > serversContainerWidth - serversContainerLeft) {
+      this.$ServerMenu.css("left", dimensions.left + dimensions.width - serverMenuWidth - 84);
+    } else {
+      this.$ServerMenu.css("left", dimensions.left + dimensions.width + 12);
+    }
+  }
+
+  UpdateMenuPosition() {
+    const dimensions = this.GetMenuDimensions();
+    this.ApplyMenuDimenstions(dimensions);
+  }
+
+  UpdateMenuUsedBy() {
+    this.$ServerMenu.attr("data-used-by", this.Id);
+  }
+
+  GetMenuUsedBy() {
+    const lastUsedBy = this.$ServerMenu.attr("data-used-by");
+    return lastUsedBy ? parseInt(lastUsedBy) || -1 : -1;
+  }
+
+  CloseMenu() {
+    this.$ServersContainer.off(`scroll.server-${this.Id}`);
+    this.$ServerMenu.addClass("hidden");
   }
 
   OpenMenu() {
-    // TODO: CONTINUE HERE
-    const serverContainerDimensions = {
-      top: this.$ServerContainer?.[0]?.offsetTop,
-      left: this.$ServerContainer?.[0]?.offsetLeft,
-      width: this.$ServerContainer?.outerWidth(),
-      height: this.$ServerContainer?.outerWidth(),
-    };
+    const self = this;
 
-    this.$ServerMenu.css("top", serverContainerDimensions.top);
-    this.$ServerMenu.css("left", serverContainerDimensions.left + serverContainerDimensions.width);
     this.$ServerMenu.removeClass("hidden");
+    this.UpdateMenuPosition();
+    this.UpdateMenuUsedBy();
+
+    this.$ServersContainer.on(`scroll.server-${this.Id}`, function () {
+      self.UpdateMenuPosition();
+    });
   }
 
   #Handler__OpenActions(event) {
     const self = event.data.self;
-    self.OpenMenu();
+
+    const menuUsedBy = self.GetMenuUsedBy();
+
+    if (menuUsedBy != self.Id) {
+      self.CloseMenu();
+      self.OpenMenu();
+      return;
+    }
+
+    self.IsMenuOpened() ? self.CloseMenu() : self.OpenMenu();
+  }
+
+  async #Handler__DeleteServerClick(event) {
+    const self = event.data.self;
+    const menuUsedBy = self.GetMenuUsedBy();
+
+    if (self.Id != menuUsedBy) {
+      return;
+    }
+
+    self.CloseMenu();
+    await self.Delete();
+  }
+
+  async #Handler__RefreshServerClick(event) {
+    const self = event.data.self;
+
+    const menuUsedBy = self.GetMenuUsedBy();
+
+    if (self.Id != menuUsedBy) {
+      return;
+    }
+
+    self.CloseMenu();
+    await self.Update();
   }
 }
 class ServersManager {
@@ -202,14 +375,14 @@ class ServersManager {
     return { status: true, message: "The server is ready to work" };
   }
 
-  AddServer(_id, icon, label, address, port, secretKey, schema) {
+  async AddServer(_id, icon, label, address, port, secretKey, schema) {
     const $newServer = $(`<div class="server-container" data-id="${_id ?? -1}">
                 <div class="server-icon">
                   <img src="${icon ?? ServersConfig.DefaultServerIconPath}" alt="" />
                 </div>
 
                 <div class="server-info">
-                  <div class="server-online online"></div>
+                  <div class="server-online"></div>
                   <div class="server-name">${label ?? "No label"}</div>
                 </div>
 
@@ -235,7 +408,8 @@ class ServersManager {
                 </button>
               </div>`);
 
-    const newServer = new Server($newServer, _id, icon, label, address, port, secretKey, schema);
+    const newServer = new Server(this.$ServersContainer, $newServer, _id, icon, label, address, port, secretKey, schema);
+    newServer.Preload();
     Servers.push(newServer);
 
     this.$ServersContainer.append($newServer);

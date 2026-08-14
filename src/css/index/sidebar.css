@@ -8,7 +8,7 @@
   right: -16px;
 }
 .main .sidebar-container.collapsed .sidebar-title .sidebar-collapse-button svg {
-  rotate: 180deg;
+  rotate: 0deg;
 }
 .main .sidebar-container.collapsed .sidebar-title {
   align-items: center;
@@ -63,6 +63,7 @@
   opacity: 0.6;
   color: var(--text);
   stroke: var(--text);
+  rotate: 180deg;
 }
 .main .sidebar-container .sidebar-title .sidebar-collapse-button {
   transition: opacity 0.4s cubic-bezier(0.34, 0.05, 0.13, 0.99);
