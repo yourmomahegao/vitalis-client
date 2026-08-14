@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/custom-styles/elevated.css" />
 
     <link rel="stylesheet" href="css/chapters/dashboard/server-not-selected.css" />
+    <link rel="stylesheet" href="css/chapters/dashboard/dashboard.css" />
 
     <link rel="stylesheet" href="css/chapters/servers/servers.css" />
     <link rel="stylesheet" href="css/chapters/servers/no-servers.css" />
@@ -62,7 +63,7 @@
         </div>
 
         <div class="sidebar-buttons-container">
-          <button class="chapter-button" data-chapter-name="dashboard">
+          <button class="chapter-button active" data-chapter-name="dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard">
               <rect width="7" height="9" x="3" y="3" rx="1" />
               <rect width="7" height="5" x="14" y="3" rx="1" />
@@ -72,7 +73,7 @@
             <span>Dashboard</span>
           </button>
 
-          <button class="chapter-button active" data-chapter-name="servers">
+          <button class="chapter-button" data-chapter-name="servers">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-icon lucide-server">
               <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
               <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
@@ -171,7 +172,7 @@
           </div>
         </div>
 
-        <div class="chapter-container hidden" data-chapter-name="dashboard">
+        <div class="chapter-container" data-chapter-name="dashboard">
           <div class="chapter-sub-container">
             <div class="chapter-title">
               <div class="chapter-name">Dashboard</div>
@@ -186,12 +187,102 @@
                 </svg>
               </div>
               <div class="server-not-selected-title">Server not selected</div>
-              <div class="server-not-selected-description">To get the metrics, open the required server via the "Servers" tab</div>
+              <div class="server-not-selected-description">To get the metrics, open the required server via the servers tab</div>
+            </div>
+
+            <div class="dashboard-container hidden">
+              <div class="dashboard-card cpu-card" data-card-name="cpu" data-load="low" style="grid-area: db-cpu-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu-icon lucide-cpu">
+                  <path d="M12 20v2" />
+                  <path d="M12 2v2" />
+                  <path d="M17 20v2" />
+                  <path d="M17 2v2" />
+                  <path d="M2 12h2" />
+                  <path d="M2 17h2" />
+                  <path d="M2 7h2" />
+                  <path d="M20 12h2" />
+                  <path d="M20 17h2" />
+                  <path d="M20 7h2" />
+                  <path d="M7 20v2" />
+                  <path d="M7 2v2" />
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <rect x="8" y="8" width="8" height="8" rx="1" />
+                </svg>
+
+                <div class="title">CPU Load</div>
+                <div class="description">The data shows the current CPU usage</div>
+
+                <div class="value-slider">
+                  <div class="value-slider-inner"></div>
+                </div>
+                <div class="value">
+                  <span class="value-value">0%</span>
+                  <span class="value-delimeter">&nbsp;•&nbsp;</span>
+                  <span class="value-max-value">0%</span>
+                </div>
+              </div>
+
+              <div class="dashboard-card ram-card" data-card-name="ram" data-load="low" style="grid-area: db-ram-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-memory-stick-icon lucide-memory-stick">
+                  <path d="M12 12v-2" />
+                  <path d="M12 18v-2" />
+                  <path d="M16 12v-2" />
+                  <path d="M16 18v-2" />
+                  <path d="M2 11h1.5" />
+                  <path d="M20 18v-2" />
+                  <path d="M20.5 11H22" />
+                  <path d="M4 18v-2" />
+                  <path d="M8 12v-2" />
+                  <path d="M8 18v-2" />
+                  <rect x="2" y="6" width="20" height="10" rx="2" />
+                </svg>
+
+                <div class="title">RAM Load</div>
+                <div class="description">The data shows the current RAM usage</div>
+
+                <div class="value-slider">
+                  <div class="value-slider-inner"></div>
+                </div>
+                <div class="value">
+                  <span class="value-value">0Mb</span>
+                  <span class="value-delimeter">&nbsp;•&nbsp;</span>
+                  <span class="value-max-value">0Mb</span>
+                </div>
+              </div>
+
+              <div class="dashboard-card file-card" data-card-name="file" data-load="low" style="grid-area: db-file-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hard-drive-icon lucide-hard-drive">
+                  <path d="M10 16h.01" />
+                  <path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                  <path d="M21.946 12.013H2.054" />
+                  <path d="M6 16h.01" />
+                </svg>
+
+                <div class="title">Storage usage</div>
+                <div class="description">The data shows the current load of the hard disk partitions</div>
+
+                <div class="value-slider">
+                  <div class="value-slider-inner"></div>
+                </div>
+                <div class="value">
+                  <span class="value-value">0Mb</span>
+                  <span class="value-delimeter">&nbsp;•&nbsp;</span>
+                  <span class="value-max-value">0Mb</span>
+                </div>
+              </div>
+
+              <div class="dashboard-graph graph-cpu" style="grid-area: db-graph-cpu"></div>
+
+              <div class="dashboard-graph graph-ram" style="grid-area: db-graph-ram"></div>
+
+              <div class="dashboard-chart chart-ram" style="grid-area: db-chart-ram"></div>
+
+              <div class="dashboard-table file-table" style="grid-area: db-file-table">123</div>
             </div>
           </div>
         </div>
 
-        <div class="chapter-container" data-chapter-name="servers">
+        <div class="chapter-container hidden" data-chapter-name="servers">
           <div class="chapter-sub-container">
             <div class="chapter-title">
               <div class="chapter-name">Servers</div>
@@ -349,6 +440,7 @@
 
     <script src="js/lib.js"></script>
 
+    <script src="js/lib/better-ajax.js"></script>
     <script src="js/lib/database.js"></script>
     <script src="js/lib/theme.js"></script>
     <script src="js/lib/custom-window.js"></script>
@@ -363,6 +455,7 @@
 
     <script src="js/encryption/encryption.js"></script>
 
+    <script src="js/chapters/dashboard/dashboard.js"></script>
     <script src="js/chapters/servers/servers.js"></script>
 
     <script src="js/main.js"></script>

@@ -15,6 +15,14 @@ SQLite.Database.exec(`CREATE TABLE IF NOT EXISTS vt_servers (
                         "schema" TEXT NOT NULL DEFAULT 'http://'
                       );`);
 
+SQLite.Database.exec(`CREATE TABLE IF NOT EXISTS vt_servers_tokens (
+                        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        server_id INTEGER NOT NULL UNIQUE,
+                        access_token_encoded TEXT NOT NULL,
+                        valid_until TEXT NOT NULL,
+                        CONSTRAINT vt_servers_tokens_vt_servers_FK FOREIGN KEY (server_id) REFERENCES vt_servers(id)
+                      );`);
+
 app.on("before-quit", () => {
   SQLite.Database.close();
 });

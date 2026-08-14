@@ -16,7 +16,12 @@ class Server {
     this.SecretKey = secretKey;
     this.Schema = schema;
 
-    this.UpdateDelay = 5000;
+    this.Selected = false;
+    this.Status = false;
+    this.AccessToken = null;
+    this.AccessTokenValidUntil = null;
+
+    this.UpdateDelay = 15000;
     this.UpdateInterval = null;
 
     this.$ServerOpenActions = this.$ServerContainer.find(".server-open-actions");
@@ -26,6 +31,130 @@ class Server {
     this.$ServerOpenActions.on("click", { self: this }, this.#Handler__OpenActions);
     this.$ServerMenu.on("click", '.server-menu-button[data-menu-action="delete-server"]', { self: this }, this.#Handler__DeleteServerClick);
     this.$ServerMenu.on("click", '.server-menu-button[data-menu-action="refresh-server"]', { self: this }, this.#Handler__RefreshServerClick);
+    this.$ServerMenu.on("click", '.server-menu-button[data-menu-action="open-server"]', { self: this }, this.#Handler__OpenServerClick);
+  }
+
+  Select() {
+    for (const server of Servers) {
+      server.Selected = false;
+
+      if (server === this) {
+        server.Selected = true;
+      }
+    }
+
+    localStorage.setItem("VITALIS_SELECTED_SERVER_ID", this.Id);
+  }
+
+  MoveToDashboard() {
+    $('.sidebar-container .sidebar-buttons-container .chapter-button[data-chapter-name="dashboard"]').trigger("click");
+  }
+
+  GetTokenFromDatabase() {
+    const serverTokenQuery = SQLite.Database.prepare(`SELECT * FROM vt_servers_tokens WHERE server_id = ?`);
+
+    let serverTokenData = serverTokenQuery.all(this.Id);
+    serverTokenData = serverTokenData[0] ?? null;
+
+    if (serverTokenData) {
+      serverTokenData.access_token = Encrypt.decryptData(Encrypt.SavedKey, serverTokenData.access_token_encoded);
+    }
+
+    return serverTokenData ?? null;
+  }
+
+  CheckExpirationDatetime(expirationDatetimeString) {
+    if (!expirationDatetimeString) {
+      return true;
+    }
+
+    const currentDatetime = new Date();
+    const expirationDatetime = new Date(expirationDatetimeString);
+
+    if (isNaN(expirationDatetime.getTime())) {
+      return true;
+    }
+
+    return currentDatetime > expirationDatetime;
+  }
+
+  SaveTokenToDatabase() {
+    if (!this.Id || !this.AccessToken || !this.AccessTokenValidUntil) {
+      return;
+    }
+
+    const serverUpsertTokenQuery = SQLite.Database.prepare(`INSERT INTO vt_servers_tokens
+                                                              (server_id, access_token_encoded, valid_until)
+                                                            VALUES
+                                                              (?, ?, ?)
+                                                            ON CONFLICT(server_id) DO UPDATE SET
+                                                              access_token_encoded = excluded.access_token_encoded,
+                                                              valid_until = excluded.valid_until`);
+    ``;
+
+    serverUpsertTokenQuery.run(this.Id, Encrypt.encryptData(Encrypt.SavedKey, this.AccessToken), this.AccessTokenValidUntil);
+  }
+
+  async ValidateAccessToken() {
+    if (!this.Status) {
+      return;
+    }
+
+    // Token already in memory and still valid — nothing to do
+    if (this.AccessToken && this.AccessTokenValidUntil && !this.CheckExpirationDatetime(this.AccessTokenValidUntil)) {
+      return;
+    }
+
+    // Token exists in database and still valid — reuse it
+    const savedAccessToken = this.GetTokenFromDatabase();
+
+    if (savedAccessToken && !this.CheckExpirationDatetime(savedAccessToken.valid_until)) {
+      this.AccessToken = savedAccessToken.access_token;
+      this.AccessTokenValidUntil = savedAccessToken.valid_until;
+      return;
+    }
+
+    // Renewing access token
+    const betterAjaxToken = new BetterAjax(`${this.Schema}${this.Address}:${this.Port}/auth/token/`, { secret_key: this.SecretKey }, "POST");
+
+    const [ajaxStatus, response] = await betterAjaxToken.Run();
+
+    if (!ajaxStatus) {
+      return;
+    }
+
+    if (response && response?.status === true) {
+      this.AccessToken = response?.data?.access_token ?? null;
+      this.AccessTokenValidUntil = response?.data?.valid_until ?? null;
+      await this.SaveTokenToDatabase();
+    }
+  }
+
+  async GetSystemMetric(name, parameters) {
+    await this.ValidateAccessToken();
+
+    if (!this.AccessToken) {
+      return null;
+    }
+
+    const metricAjax = new BetterAjax(`${this.Schema}${this.Address}:${this.Port}/info/system/${name}/`, parameters, "POST", { Authorization: `Bearer ${this.AccessToken}` });
+
+    const [ajaxStatus, response] = await metricAjax.Run();
+
+    if (!ajaxStatus) {
+      return null;
+    }
+
+    if (response && response?.status === true) {
+      return response?.data ?? null;
+    }
+
+    return null;
+  }
+
+  async OpenInDashboard() {
+    this.Select();
+    this.MoveToDashboard();
   }
 
   async GetStatus() {
@@ -41,7 +170,7 @@ class Server {
     } catch {}
 
     if (response == null) {
-      return { status: false, message: "Couldn't send a request to the server" };
+      return false;
     }
 
     let data = null;
@@ -50,20 +179,20 @@ class Server {
     } catch {}
 
     if (data == null) {
-      return { status: false, message: "Failed to receive response data from the server" };
+      return false;
     }
 
     if (data.status != true) {
-      return { status: false, message: "Server responded, but reported it isn't ready" };
+      return false;
     }
 
-    return { status: true, message: "The server is ready to work" };
+    return true;
   }
 
   async UpdateStatus() {
-    const serverStatus = await this.GetStatus();
+    this.Status = await this.GetStatus();
 
-    if (!serverStatus.status) {
+    if (!this.Status) {
       this.$ServerContainer.find(".server-info .server-online").removeClass("online");
       return;
     }
@@ -73,6 +202,7 @@ class Server {
 
   async Update() {
     await this.UpdateStatus();
+    await this.ValidateAccessToken();
   }
 
   async Preload() {
@@ -218,6 +348,19 @@ class Server {
 
     self.CloseMenu();
     await self.Update();
+  }
+
+  async #Handler__OpenServerClick(event) {
+    const self = event.data.self;
+
+    const menuUsedBy = self.GetMenuUsedBy();
+
+    if (self.Id != menuUsedBy) {
+      return;
+    }
+
+    self.CloseMenu();
+    await self.OpenInDashboard();
   }
 }
 class ServersManager {
@@ -409,7 +552,7 @@ class ServersManager {
               </div>`);
 
     const newServer = new Server(this.$ServersContainer, $newServer, _id, icon, label, address, port, secretKey, schema);
-    newServer.Preload();
+    await newServer.Preload();
     Servers.push(newServer);
 
     this.$ServersContainer.append($newServer);
@@ -421,7 +564,7 @@ class ServersManager {
     const allServers = await this.GetAllServers();
 
     for (const serverData of allServers) {
-      this.AddServer(serverData?.id, serverData?.icon, serverData?.label, serverData?.address, serverData?.port, serverData?.secret_key, serverData?.schema);
+      await this.AddServer(serverData?.id, serverData?.icon, serverData?.label, serverData?.address, serverData?.port, serverData?.secretKey, serverData?.schema);
     }
 
     this.UpdateNoServers();
@@ -648,29 +791,3 @@ class ServerAddManager {
     self.HideAddServerWindow();
   }
 }
-
-var serversManager = null;
-var serverAddManager = null;
-$(document).ready(function () {
-  serversManager = new ServersManager();
-  serverAddManager = new ServerAddManager();
-
-  let serversInitialized = false;
-
-  // Checking for encryption key to be ready
-  const ServerInitializationInterval = setInterval(async function () {
-    if (serversInitialized) {
-      clearInterval(ServerInitializationInterval);
-      return;
-    }
-
-    if (!Encrypt.KeyReady) {
-      return;
-    }
-
-    await serversManager.UpdateServers();
-
-    serversInitialized = true;
-    clearInterval(ServerInitializationInterval);
-  }, 100);
-});

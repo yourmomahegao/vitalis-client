@@ -1,0 +1,124 @@
+.chapter-container[data-chapter-name=dashboard] .dashboard-container {
+  width: calc(100% - var(--margin-l) * 2);
+  height: calc(100% - var(--margin-l) * 2);
+  max-height: calc(100% - var(--margin-l) * 2);
+  margin: var(--margin-l);
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas: "db-cpu-card db-ram-card db-file-card" "db-graph-cpu db-graph-cpu db-graph-ram" "db-graph-cpu db-graph-cpu db-graph-ram" "db-chart-ram db-file-table db-file-table";
+  gap: var(--gap-l);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container.hidden {
+  display: none;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container > div {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: var(--border-radius-s);
+  background: var(--bg-light);
+  overflow: hidden;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card {
+  padding: var(--padding-xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-xxs);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card > svg,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card > svg,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card > svg {
+  margin-bottom: var(--margin-xs);
+  width: 24px;
+  height: 24px;
+  opacity: 0.3;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .title,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .title,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .title {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-medium);
+  opacity: 1;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .description,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .description,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .description {
+  margin-bottom: var(--margin-s);
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.6;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .value-slider,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .value-slider,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .value-slider {
+  width: 100%;
+  height: 8px;
+  min-height: 8px;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  border-radius: 999px;
+  background: var(--bg-lighter);
+  overflow: hidden;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .value-slider .value-slider-inner {
+  width: 0%;
+  height: 100%;
+  background: var(--grey);
+  border-radius: 999px;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .value,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .value,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .value {
+  margin-top: var(--margin-xxs);
+  margin-left: auto;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .value .value-value,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .value .value-value,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .value .value-value {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-medium);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .value .value-delimeter,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .value .value-delimeter,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .value .value-delimeter {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.3;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card .value .value-max-value,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card .value .value-max-value,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card .value .value-max-value {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.6;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card[data-load=low] .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card[data-load=low] .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card[data-load=low] .value-slider .value-slider-inner {
+  background: var(--green);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card[data-load=medium] .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card[data-load=medium] .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card[data-load=medium] .value-slider .value-slider-inner {
+  background: var(--yellow);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.cpu-card[data-load=high] .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card[data-load=high] .value-slider .value-slider-inner,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card[data-load=high] .value-slider .value-slider-inner {
+  background: var(--red);
+}
+
+/*# sourceMappingURL=dashboard.css.map */
