@@ -271,13 +271,30 @@
                 </div>
               </div>
 
-              <div class="dashboard-graph graph-cpu" style="grid-area: db-graph-cpu"></div>
+              <div class="dashboard-graph graph-cpu" style="grid-area: db-graph-cpu">
+                <div class="title">CPU Utilization</div>
+                <div class="description">The latest load values on the CPU</div>
+                <div class="cpu-graph"></div>
+              </div>
 
               <div class="dashboard-graph graph-ram" style="grid-area: db-graph-ram"></div>
 
-              <div class="dashboard-chart chart-ram" style="grid-area: db-chart-ram"></div>
+              <div class="dashboard-chart chart-net" style="grid-area: db-chart-net"></div>
 
-              <div class="dashboard-table file-table" style="grid-area: db-file-table">123</div>
+              <div class="dashboard-table file-table" style="grid-area: db-file-table">
+                <div class="title">Storage partitions</div>
+                <table class="table-data">
+                  <thead>
+                    <tr>
+                      <th>Path</th>
+                      <th>Used</th>
+                      <th>Free</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -441,6 +458,7 @@
     <script src="js/lib.js"></script>
 
     <script src="js/lib/better-ajax.js"></script>
+    <script src="js/lib/echarts.js"></script>
     <script src="js/lib/database.js"></script>
     <script src="js/lib/theme.js"></script>
     <script src="js/lib/custom-window.js"></script>

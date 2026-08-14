@@ -6,7 +6,7 @@
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-rows: auto minmax(0, 1fr) auto;
-  grid-template-areas: "db-cpu-card db-ram-card db-file-card" "db-graph-cpu db-graph-cpu db-graph-ram" "db-graph-cpu db-graph-cpu db-graph-ram" "db-chart-ram db-file-table db-file-table";
+  grid-template-areas: "db-cpu-card db-ram-card db-file-card" "db-graph-cpu db-graph-cpu db-graph-ram" "db-chart-net db-file-table db-file-table";
   gap: var(--gap-l);
 }
 .chapter-container[data-chapter-name=dashboard] .dashboard-container.hidden {
@@ -119,6 +119,73 @@
 .chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.ram-card[data-load=high] .value-slider .value-slider-inner,
 .chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-card.file-card[data-load=high] .value-slider .value-slider-inner {
   background: var(--red);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table {
+  min-height: 120px;
+  padding: var(--padding-xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-m);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table .title {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.6;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table .table-data {
+  width: 100%;
+  border-collapse: collapse;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table .table-data thead tr th {
+  padding-bottom: var(--padding-xs);
+  text-align: left;
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.3;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table .table-data thead tr th:nth-child(4) {
+  text-align: right;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table .table-data tbody tr:not(:last-child) td {
+  border-bottom: 1px dashed var(--border);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table .table-data tbody tr td {
+  padding: var(--gap-s) 0;
+  text-align: left;
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-medium);
+  opacity: 1;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-table.file-table .table-data tbody tr td:nth-child(4) {
+  text-align: right;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.graph-cpu {
+  padding: var(--padding-xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-xxs);
+  overflow: hidden;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.graph-cpu .title {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-medium);
+  opacity: 1;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.graph-cpu .description {
+  margin-bottom: var(--margin-s);
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.6;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.graph-cpu .cpu-graph {
+  width: 100%;
+  height: 100%;
 }
 
 /*# sourceMappingURL=dashboard.css.map */

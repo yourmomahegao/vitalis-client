@@ -155,6 +155,7 @@ class Server {
   async OpenInDashboard() {
     this.Select();
     this.MoveToDashboard();
+    await dashboard.Update();
   }
 
   async GetStatus() {
