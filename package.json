@@ -5,7 +5,7 @@
   "scripts": {
     "start": "electron .",
     "build:scss": "sass src/scss:src/css",
-    "dist": "electron-builder --win",
+    "dist-win": "electron-builder --win",
     "dist-linux": "electron-builder --linux",
     "watch:scss": "sass --watch src/scss:src/css"
   },
