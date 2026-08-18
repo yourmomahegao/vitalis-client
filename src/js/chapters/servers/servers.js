@@ -781,7 +781,7 @@ class ServerAddManager {
     reader.onload = async function (event) {
       // Converting image to webp buffer
       const uploadedImageSource = event.target.result;
-      const uploadedImageDimesions = await self.GetImageDimensions(uploadedImageSource);
+      const uploadedImageDimesions = await serversManager.GetImageDimensions(uploadedImageSource);
 
       // Checking for maximum dimensions
       if (uploadedImageDimesions.width > 1024 || uploadedImageDimesions.height > 1024) {
@@ -791,8 +791,8 @@ class ServerAddManager {
 
       // Converting and applying image to icon preview
       try {
-        const webpBase64 = await self.Base64ToServerIcon(uploadedImageSource);
-        $addServerIconPreview.attr("src", webpBase64);
+        const webpBase64 = await serversManager.Base64ToServerIcon(uploadedImageSource);
+        self.$AddServerIconPreview.attr("src", webpBase64);
       } catch {
         new Notification("Image conversion error occured!", Notification.Type.ERROR, 7000).Show();
         return;

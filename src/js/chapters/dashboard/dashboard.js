@@ -28,9 +28,9 @@ class Dashboard {
     }
 
     $card.attr("data-load", load);
-    $cardSliderInner.css("width", `${valuePercent}%`);
-    $cardValue.text(`${value}${valueUnits}`);
-    $cardMaxValue.text(`${maxValue}${maxValueUnits}`);
+    $cardSliderInner.css("width", `${valuePercent || 0}%`);
+    $cardValue.text(`${value || 0}${valueUnits || "b"}`);
+    $cardMaxValue.text(`${maxValue || 0}${maxValueUnits || "b"}`);
   }
 
   #FormatBytes(bytes, decimals = 2) {
@@ -201,8 +201,14 @@ class Dashboard {
     return chart;
   }
 
-  UpdateRamPieChart({ percent = 0, value = 0, valueUnits = "Mb", remainValue = 0, remainValueUnits = "Mb" } = {}) {
+  UpdateRamPieChart({ percent = 0, value = 0, valueUnits = "b", remainValue = 0, remainValueUnits = "b" } = {}) {
     const chart = this.RamChart;
+
+    percent = percent || 0
+    value = value || 0
+    valueUnits = valueUnits || "b"
+    remainValue = remainValue || 0
+    remainValueUnits = remainValueUnits || "b"
 
     chart.resize();
 
@@ -456,8 +462,6 @@ class Dashboard {
   }
 
   async Preload() {
-    this.UpdateSelectedServer();
-
     // Creating CPU graph container
     const cpuContainer = this.$DashboardContainer.find(`.dashboard-graph.graph-cpu .cpu-graph`)[0];
     const cpuCard = this.$DashboardContainer.find(`.dashboard-graph.graph-cpu`)[0];
@@ -484,6 +488,14 @@ class Dashboard {
     ramResizeObserver.observe(ramCard);
     this.RamChart._resizeObserver = ramResizeObserver;
 
+    await this.Update();
+
+    this.StartPeriodicUpdate();
+  }
+
+  async Update() {
+    this.UpdateSelectedServer();
+
     if (!this.SelectedServer) {
       this.HideContainer();
       this.ShowServersNotSelected();
@@ -493,13 +505,7 @@ class Dashboard {
 
     this.ShowContainer();
     this.HideServersNotSelected();
-    await this.Update();
 
-    this.StartPeriodicUpdate();
-  }
-
-  async Update() {
-    this.UpdateSelectedServer();
     await this.UpdateDashboard();
   }
 
