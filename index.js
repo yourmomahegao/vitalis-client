@@ -14,7 +14,7 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     minWidth: 1000,
-    minHeight: 600,
+    minHeight: 800,
     autoHideMenuBar: true,
     transparent: true,
     titleBarStyle: "hidden",
