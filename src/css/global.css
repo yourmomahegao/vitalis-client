@@ -11,6 +11,18 @@ body {
   background: transparent;
   overflow: hidden;
 }
+body.maximized .main {
+  border-radius: 0;
+}
+body.maximized .main .titlebar-container {
+  border-radius: 0;
+}
+body.maximized .main .chapters-container {
+  border-radius: 0;
+}
+body.maximized .main .sidebar-container {
+  border-radius: 0;
+}
 
 * {
   color: var(--text);

@@ -13,6 +13,14 @@ $(function () {
     $close[0].style.webkitAppRegion = "no-drag";
   } catch {}
 
+  ipcRenderer.on("window-maximized", function () {
+    $("body").addClass("maximized");
+  });
+
+  ipcRenderer.on("window-unmaximized", function () {
+    $("body").removeClass("maximized");
+  });
+
   $minimize.on("click", (event) => {
     ipcRenderer.send("minimize-window");
   });

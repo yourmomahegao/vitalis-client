@@ -15,6 +15,24 @@ body {
   background: transparent;
 
   overflow: hidden;
+
+  &.maximized {
+    .main {
+      border-radius: 0;
+
+      .titlebar-container {
+        border-radius: 0;
+      }
+
+      .chapters-container {
+        border-radius: 0;
+      }
+
+      .sidebar-container {
+        border-radius: 0;
+      }
+    }
+  }
 }
 
 * {
