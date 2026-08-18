@@ -277,9 +277,39 @@
                 <div class="cpu-graph"></div>
               </div>
 
-              <div class="dashboard-graph graph-ram" style="grid-area: db-graph-ram"></div>
+              <div class="dashboard-graph chart-ram" style="grid-area: db-chart-ram">
+                <div class="title">RAM Usage</div>
+                <div class="description">Current memory usage split between used and free</div>
+                <div class="ram-graph"></div>
+              </div>
 
-              <div class="dashboard-chart chart-net" style="grid-area: db-chart-net"></div>
+              <div class="dashboard-data net-info" style="grid-area: db-net-info">
+                <div class="title">Net Usage</div>
+                <div class="description">Information about how much data was sent and received</div>
+
+                <div class="net-usage">
+                  <div class="amount-send">
+                    <div class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-up-icon lucide-move-up">
+                        <path d="M8 6L12 2L16 6" />
+                        <path d="M12 2V22" />
+                      </svg>
+                    </div>
+                    <span class="value">0 Mb</span>
+                    <span class="label">Send</span>
+                  </div>
+                  <div class="amount-received">
+                    <div class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-down-icon lucide-move-down">
+                        <path d="M8 18L12 22L16 18" />
+                        <path d="M12 2V22" />
+                      </svg>
+                    </div>
+                    <span class="value">0 Mb</span>
+                    <span class="label">Received</span>
+                  </div>
+                </div>
+              </div>
 
               <div class="dashboard-table file-table" style="grid-area: db-file-table">
                 <div class="title">Storage partitions</div>

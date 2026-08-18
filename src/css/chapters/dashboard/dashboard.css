@@ -6,8 +6,10 @@
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-rows: auto minmax(0, 1fr) auto;
-  grid-template-areas: "db-cpu-card db-ram-card db-file-card" "db-graph-cpu db-graph-cpu db-graph-ram" "db-chart-net db-file-table db-file-table";
+  grid-template-areas: "db-cpu-card db-ram-card db-file-card" "db-graph-cpu db-graph-cpu db-chart-ram" "db-net-info db-file-table db-file-table";
   gap: var(--gap-l);
+  overflow: hidden;
+  overflow-y: auto;
 }
 .chapter-container[data-chapter-name=dashboard] .dashboard-container.hidden {
   display: none;
@@ -186,6 +188,116 @@
 .chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.graph-cpu .cpu-graph {
   width: 100%;
   height: 100%;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.chart-ram {
+  padding: var(--padding-xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-xxs);
+  overflow: hidden;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.chart-ram .title {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-medium);
+  opacity: 1;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.chart-ram .description {
+  margin-bottom: var(--margin-s);
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.6;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-graph.chart-ram .ram-graph {
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info {
+  padding: var(--padding-xl);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-xxs);
+  overflow: hidden;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .title {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-medium);
+  opacity: 1;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .description {
+  margin-bottom: var(--margin-s);
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-medium);
+  opacity: 0.6;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gap-s);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-send,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-received {
+  width: calc(100% - var(--padding-l) * 2);
+  height: calc(100% - var(--padding-l) * 2);
+  padding: var(--padding-l);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: var(--gap-xxs);
+  background: var(--main);
+  border-radius: var(--border-radius-l);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-send .icon,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-received .icon {
+  padding: var(--padding-xs);
+  background: var(--text-static-dark);
+  border-radius: 999px;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-send .icon svg,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-received .icon svg {
+  width: 12px;
+  height: 12px;
+  color: var(--main);
+  stroke: var(--main);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-send .value,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-received .value {
+  margin-top: auto;
+  color: var(--text-static-dark);
+  font-size: var(--font-l);
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-send .label,
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-received .label {
+  margin-top: calc(var(--gap-xxs) * -1);
+  color: var(--text-static-dark);
+  font-size: var(--font-xxs);
+  font-weight: var(--font-weight-medium);
+  text-align: left;
+  opacity: 0.6;
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-send {
+  background: var(--main);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-send .icon svg {
+  color: var(--main);
+  stroke: var(--main);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-received {
+  background: var(--main-dark);
+}
+.chapter-container[data-chapter-name=dashboard] .dashboard-container .dashboard-data.net-info .net-usage .amount-received .icon svg {
+  color: var(--main-dark);
+  stroke: var(--main-dark);
 }
 
 /*# sourceMappingURL=dashboard.css.map */

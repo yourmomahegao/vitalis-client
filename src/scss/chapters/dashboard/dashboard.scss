@@ -12,9 +12,12 @@
     grid-auto-rows: auto minmax(0, 1fr) auto;
     grid-template-areas:
       "db-cpu-card db-ram-card db-file-card"
-      "db-graph-cpu db-graph-cpu db-graph-ram"
-      "db-chart-net db-file-table db-file-table";
+      "db-graph-cpu db-graph-cpu db-chart-ram"
+      "db-net-info db-file-table db-file-table";
     gap: var(--gap-l);
+
+    overflow: hidden;
+    overflow-y: auto;
 
     &.hidden {
       display: none;
@@ -224,6 +227,149 @@
       .cpu-graph {
         width: 100%;
         height: 100%;
+      }
+    }
+
+    .dashboard-graph.chart-ram {
+      padding: var(--padding-xl);
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: column;
+      gap: var(--gap-xxs);
+
+      overflow: hidden;
+
+      .title {
+        font-size: var(--font-m);
+        font-weight: var(--font-weight-medium);
+        opacity: 1;
+      }
+
+      .description {
+        margin-bottom: var(--margin-s);
+
+        font-size: var(--font-xs);
+        font-weight: var(--font-weight-medium);
+        opacity: 0.6;
+      }
+
+      .ram-graph {
+        width: 100%;
+        height: 100%;
+        min-height: 120px;
+      }
+    }
+
+    .dashboard-data.net-info {
+      padding: var(--padding-xl);
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: column;
+      gap: var(--gap-xxs);
+
+      overflow: hidden;
+
+      .title {
+        font-size: var(--font-m);
+        font-weight: var(--font-weight-medium);
+        opacity: 1;
+      }
+
+      .description {
+        margin-bottom: var(--margin-s);
+
+        font-size: var(--font-xs);
+        font-weight: var(--font-weight-medium);
+        opacity: 0.6;
+      }
+
+      .net-usage {
+        width: 100%;
+        height: 100%;
+
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        gap: var(--gap-s);
+
+        .amount-send,
+        .amount-received {
+          width: calc(100% - var(--padding-l) * 2);
+          height: calc(100% - var(--padding-l) * 2);
+
+          padding: var(--padding-l);
+
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+          flex-direction: column;
+          gap: var(--gap-xxs);
+
+          background: var(--main);
+          border-radius: var(--border-radius-l);
+
+          .icon {
+            padding: var(--padding-xs);
+
+            background: var(--text-static-dark);
+            border-radius: 999px;
+
+            svg {
+              width: 12px;
+              height: 12px;
+
+              color: var(--main);
+              stroke: var(--main);
+            }
+          }
+
+          .value {
+            margin-top: auto;
+
+            color: var(--text-static-dark);
+
+            font-size: var(--font-l);
+            font-weight: var(--font-weight-semibold);
+            text-align: left;
+          }
+
+          .label {
+            margin-top: calc(var(--gap-xxs) * -1);
+
+            color: var(--text-static-dark);
+
+            font-size: var(--font-xxs);
+            font-weight: var(--font-weight-medium);
+            text-align: left;
+
+            opacity: 0.6;
+          }
+        }
+
+        .amount-send {
+          background: var(--main);
+
+          .icon {
+            svg {
+              color: var(--main);
+              stroke: var(--main);
+            }
+          }
+        }
+        .amount-received {
+          background: var(--main-dark);
+
+          .icon {
+            svg {
+              color: var(--main-dark);
+              stroke: var(--main-dark);
+            }
+          }
+        }
       }
     }
   }

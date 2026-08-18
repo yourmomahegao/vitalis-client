@@ -3,8 +3,12 @@ class Dashboard {
     this.$DashboardChapter = $('.chapter-container[data-chapter-name="dashboard"]');
     this.$DashboardContainer = this.$DashboardChapter.find(".dashboard-container");
     this.$ServersNotSelectedContainer = this.$DashboardChapter.find(".server-not-selected-container");
+    this.$NetInfo = this.$DashboardChapter.find(".dashboard-data.net-info");
+    this.$NetAmountSendValue = this.$NetInfo.find(".net-usage .amount-send .value");
+    this.$NetAmountReceivedValue = this.$NetInfo.find(".net-usage .amount-received .value");
 
     this.CpuChart = null;
+    this.RamChart = null;
     this.SelectedServer = null;
   }
 
@@ -78,9 +82,6 @@ class Dashboard {
 
     chart.resize();
 
-    const red = this.#GetCssVar("--red");
-    const yellow = this.#GetCssVar("--yellow");
-    const green = this.#GetCssVar("--green");
     const textSub = this.#GetCssVar("--text-sub");
     const text = this.#GetCssVar("--text");
     const border = this.#GetCssVar("--border");
@@ -94,9 +95,9 @@ class Dashboard {
     const values = points.map((p) => p.value);
     const lastValue = values[values.length - 1] ?? 0;
 
-    const lineColor = lastValue >= 90 ? red : lastValue >= 70 ? yellow : green;
-    const lineAlpha = lastValue >= 90 ? this.#GetCssVar("--red-alpha") : lastValue >= 70 ? this.#GetCssVar("--yellow-alpha") : this.#GetCssVar("--green-alpha");
-    const lineFullAlpha = lastValue >= 90 ? this.#GetCssVar("--red-full-alpha") : lastValue >= 70 ? this.#GetCssVar("--yellow-full-alpha") : this.#GetCssVar("--green-full-alpha");
+    const lineColor = this.#GetCssVar("--main");
+    const lineAlpha = this.#GetCssVar("--main-alpha");
+    const lineFullAlpha = this.#GetCssVar("--main-minalpha");
 
     const option = {
       grid: { left: 40, right: 20, top: 20, bottom: 30 },
@@ -190,10 +191,96 @@ class Dashboard {
     chart.dispose();
   }
 
+  CreateRamPieChart(container) {
+    const chart = echarts.init(container, null, { renderer: "svg" });
+
+    window.addEventListener("resize", () => chart.resize());
+
+    return chart;
+  }
+
+  UpdateRamPieChart({ percent = 0, value = 0, valueUnits = "Mb", remainValue = 0, remainValueUnits = "Mb" } = {}) {
+    const chart = this.RamChart;
+
+    chart.resize();
+
+    const main = this.#GetCssVar("--main");
+    const bgLighter = this.#GetCssVar("--bg-lighter");
+    const bgLight = this.#GetCssVar("--bg-light");
+    const border = this.#GetCssVar("--border");
+    const text = this.#GetCssVar("--text");
+    const textSub = this.#GetCssVar("--text-sub");
+    const fontXs = this.#GetCssVar("--font-xs");
+    const fontS = this.#GetCssVar("--font-s");
+    const fontXl = this.#GetCssVar("--font-xl");
+    const fontFamily = "'Montserrat', sans-serif";
+
+    const used = Math.max(0, Math.min(100, percent));
+    const free = 100 - used;
+
+    const option = {
+      tooltip: {
+        trigger: "item",
+        backgroundColor: bgLight,
+        borderColor: border,
+        borderWidth: 1,
+        padding: 12,
+        extraCssText: `border-radius: 12px; box-shadow: ${this.#GetCssVar("--shadow-light")}; font-family: ${fontFamily};`,
+        formatter: (param) => `
+          <div style="font-size: ${fontXs}; color: ${textSub}; margin-bottom: 4px;">
+            ${param.name}
+          </div>
+          <div style="font-size: ${fontS}; color: ${text}; font-weight: 600;">
+            ${param.data.valueLabel}
+          </div>
+        `,
+      },
+      series: [
+        {
+          name: "ram",
+          type: "pie",
+          radius: ["65%", "85%"],
+          center: ["50%", "50%"],
+          padAngle: 4,
+          itemStyle: { borderRadius: 8 },
+          label: { show: false },
+          labelLine: { show: false },
+          emphasis: { scaleSize: 4 },
+          data: [
+            { name: "Used", value: used, valueLabel: `${value}${valueUnits}`, itemStyle: { color: main } },
+            { name: "Free", value: free, valueLabel: `${remainValue}${remainValueUnits}`, itemStyle: { color: bgLighter } },
+          ],
+        },
+      ],
+      graphic: [
+        {
+          type: "text",
+          left: "center",
+          top: "center",
+          style: { text: `${Math.round(used)}%`, fill: text, fontSize: fontXl, fontWeight: 700, fontFamily },
+        },
+      ],
+    };
+
+    chart.setOption(option, true);
+  }
+
+  DestroyRamPieChart() {
+    const chart = this.RamChart;
+    chart._resizeObserver?.disconnect();
+    chart.dispose();
+  }
+
+  UpdateNetInfo(sendBytes, sendBytesUnits, receivedBytes, receivedBytesUnits) {
+    this.$NetAmountSendValue.text(`${sendBytes}${sendBytesUnits}`);
+    this.$NetAmountReceivedValue.text(`${receivedBytes}${receivedBytesUnits}`);
+  }
+
   async UpdateDashboard() {
     const cpuMetrics = (await this.SelectedServer.GetSystemMetric("cpu", { limit_group: 1 })) || [];
     const ramMetrics = (await this.SelectedServer.GetSystemMetric("ram", { limit_group: 1 })) || [];
     const fileMetrics = (await this.SelectedServer.GetSystemMetric("file", { limit_group: 1 })) || [];
+    const netMetrics = (await this.SelectedServer.GetSystemMetric("net", { limit_group: 1 })) || [];
 
     // CPU metric card
     try {
@@ -222,17 +309,29 @@ class Dashboard {
       let ramValueUnits = "";
       let ramMaxValue = 0;
       let ramMaxValueUnits = "";
+      let ramRemainValue = 0;
+      let ramRemainValueUnits = "";
 
       for (const ramMetric of ramMetrics) {
         ramValue += ramMetric.used;
         ramMaxValue += ramMetric.total;
+        ramRemainValue += ramMetric.total - ramMetric.used;
       }
 
       [ramValue, ramValueUnits] = this.#FormatBytes(ramValue);
       [ramMaxValue, ramMaxValueUnits] = this.#FormatBytes(ramMaxValue);
+      [ramRemainValue, ramRemainValueUnits] = this.#FormatBytes(ramRemainValue);
       ramValuePercent = Math.round((ramValue / ramMaxValue) * 100);
 
       this.SetDashboadCardValues("ram", ramValuePercent, ramValue, ramValueUnits, ramMaxValue, ramMaxValueUnits);
+
+      this.UpdateRamPieChart({
+        percent: ramValuePercent,
+        value: ramValue,
+        valueUnits: ramValueUnits,
+        remainValue: ramRemainValue,
+        remainValueUnits: ramRemainValueUnits,
+      });
     } catch (err) {
       console.error(`Error getting RAM metric: ${err}`);
     }
@@ -296,6 +395,26 @@ class Dashboard {
     } catch (err) {
       console.error(`Error updating CPU utilization chart: ${err}`);
     }
+
+    // Net info
+    try {
+      let sendBytes = 0;
+      let sendBytesUnits = "";
+      let receivedBytes = 0;
+      let receivedBytesUnits = "";
+
+      for (const netMetric of netMetrics) {
+        sendBytes += netMetric.bytes_sent;
+        receivedBytes += netMetric.bytes_recv;
+      }
+
+      [sendBytes, sendBytesUnits] = this.#FormatBytes(sendBytes);
+      [receivedBytes, receivedBytesUnits] = this.#FormatBytes(receivedBytes);
+
+      this.UpdateNetInfo(sendBytes, sendBytesUnits, receivedBytes, receivedBytesUnits);
+    } catch (err) {
+      console.error(`Error updating Net metrics: ${err}`);
+    }
   }
 
   ShowContainer() {
@@ -337,6 +456,7 @@ class Dashboard {
   async Preload() {
     this.UpdateSelectedServer();
 
+    // Creating CPU graph container
     const cpuContainer = this.$DashboardContainer.find(`.dashboard-graph.graph-cpu .cpu-graph`)[0];
     const cpuCard = this.$DashboardContainer.find(`.dashboard-graph.graph-cpu`)[0];
 
@@ -348,6 +468,19 @@ class Dashboard {
 
     resizeObserver.observe(cpuCard);
     this.CpuChart._resizeObserver = resizeObserver;
+
+    // Creating RAM chart container
+    const ramContainer = this.$DashboardContainer.find(`.dashboard-graph.chart-ram .ram-graph`)[0];
+    const ramCard = this.$DashboardContainer.find(`.dashboard-graph.chart-ram`)[0];
+
+    this.RamChart = this.CreateRamPieChart(ramContainer);
+
+    const ramResizeObserver = new ResizeObserver(() => {
+      this.RamChart.resize();
+    });
+
+    ramResizeObserver.observe(ramCard);
+    this.RamChart._resizeObserver = ramResizeObserver;
 
     if (!this.SelectedServer) {
       this.HideContainer();
