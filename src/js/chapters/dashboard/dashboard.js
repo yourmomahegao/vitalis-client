@@ -10,6 +10,8 @@ class Dashboard {
     this.CpuChart = null;
     this.RamChart = null;
     this.SelectedServer = null;
+    this.UpdateInterval = null;
+    this.UpdateDelay = 30000;
   }
 
   SetDashboadCardValues(cardName, valuePercent, value, valueUnits, maxValue, maxValueUnits) {
@@ -492,10 +494,28 @@ class Dashboard {
     this.ShowContainer();
     this.HideServersNotSelected();
     await this.Update();
+
+    this.StartPeriodicUpdate();
   }
 
   async Update() {
     this.UpdateSelectedServer();
     await this.UpdateDashboard();
+  }
+
+  StartPeriodicUpdate() {
+    const self = this;
+
+    if (this.UpdateInterval) {
+      clearInterval(this.UpdateInterval);
+    }
+
+    this.UpdateInterval = setInterval(async function () {
+      if (self.$DashboardChapter.hasClass("hidden")) {
+        return;
+      }
+
+      await self.Update();
+    }, this.UpdateDelay);
   }
 }

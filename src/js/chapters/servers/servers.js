@@ -213,6 +213,10 @@ class Server {
 
     if (!this.UpdateInterval) {
       this.UpdateInterval = setInterval(function () {
+        if (self.$ServerChapter.hasClass("hidden")) {
+          return;
+        }
+
         self.Update();
       }, this.UpdateDelay);
     }
@@ -230,11 +234,17 @@ class Server {
   }
 
   async Delete() {
+    const serverTokenDeleteQuery = SQLite.Database.prepare(
+      `DELETE FROM vt_servers_tokens
+       WHERE server_id=?`,
+    );
+
     const serverDeleteQuery = SQLite.Database.prepare(
       `DELETE FROM vt_servers
        WHERE id=?`,
     );
 
+    serverTokenDeleteQuery.run(this.Id);
     serverDeleteQuery.run(this.Id);
 
     this.DeleteElement();
@@ -369,6 +379,15 @@ class ServersManager {
     this.$ServerChapter = $('.chapter-container[data-chapter-name="servers"]');
     this.$ServersContainer = this.$ServerChapter.find(".servers-container");
     this.$NoServersContainer = this.$ServerChapter.find(".no-servers-container");
+
+    this.$ImportServersButton = this.$ServerChapter.find(".chapter-action.import-servers-button");
+    this.$ExportServersButton = this.$ServerChapter.find(".chapter-action.export-servers-button");
+
+    // When "Load servers" button was clicked
+    this.$ImportServersButton.on("click", { self: this }, this.#Handler__ImportServersClick);
+
+    // When "Export servers" button was clicked
+    this.$ExportServersButton.on("click", { self: this }, this.#Handler__ExportServersClick);
   }
 
   async Base64ToServerIcon(base64Data, quality = 80) {
@@ -569,6 +588,109 @@ class ServersManager {
     }
 
     this.UpdateNoServers();
+  }
+
+  async ExportServersToFile() {
+    const allServers = await this.GetAllServers();
+
+    const exportData = allServers.map((server) => ({
+      icon: server.icon,
+      label: server.label,
+      address: server.address,
+      port: server.port,
+      secretKey: server.secretKey,
+      schema: server.schema,
+    }));
+
+    const saveDialogResult = await dialog.showSaveDialog({
+      title: "Export servers configuration",
+      defaultPath: "vitalis-servers.json",
+      filters: [{ name: "JSON", extensions: ["json"] }],
+    });
+
+    if (saveDialogResult.canceled || !saveDialogResult.filePath) {
+      return;
+    }
+
+    try {
+      await fsa.writeFile(saveDialogResult.filePath, JSON.stringify(exportData, null, 2), "utf-8");
+      new Notification("Servers configuration was exported successfully", Notification.Type.SUCCESS, 7000).Show();
+    } catch {
+      new Notification("Failed to write servers configuration file", Notification.Type.ERROR, 7000).Show();
+    }
+  }
+
+  async ImportServersFromFile() {
+    const openDialogResult = await dialog.showOpenDialog({
+      title: "Load servers configuration",
+      filters: [{ name: "JSON", extensions: ["json"] }],
+      properties: ["openFile"],
+    });
+
+    if (openDialogResult.canceled || !openDialogResult.filePaths?.length) {
+      return;
+    }
+
+    let importedServers;
+    try {
+      const fileContents = await fsa.readFile(openDialogResult.filePaths[0], "utf-8");
+      importedServers = JSON.parse(fileContents);
+    } catch {
+      new Notification("Failed to read servers configuration file", Notification.Type.ERROR, 7000).Show();
+      return;
+    }
+
+    if (!Array.isArray(importedServers)) {
+      new Notification("Servers configuration file has an invalid format", Notification.Type.ERROR, 7000).Show();
+      return;
+    }
+
+    let importedCount = 0;
+
+    for (const server of importedServers) {
+      if (!server?.label || !server?.address || !server?.port || !server?.secretKey || !server?.schema) {
+        continue;
+      }
+
+      const saveServerResult = await this.SaveServer(server.icon, server.label, server.address, server.port, server.secretKey, server.schema);
+
+      if (saveServerResult.status == false) {
+        continue;
+      }
+
+      const serverData = saveServerResult?.data ?? {};
+      await this.AddServer(serverData?.id, serverData?.icon, serverData?.label, serverData?.address, serverData?.port, serverData?.secretKey, serverData?.schema);
+      importedCount++;
+    }
+
+    if (importedCount === 0) {
+      new Notification("No valid servers were found in the configuration file", Notification.Type.WARNING, 7000).Show();
+      return;
+    }
+
+    new Notification(`Imported ${importedCount} server(s) successfully`, Notification.Type.SUCCESS, 7000).Show();
+  }
+
+  async #Handler__ImportServersClick(event) {
+    const self = event.data.self;
+
+    if (!Encrypt.KeyReady) {
+      new Notification("User's encryption key is not ready yet!", Notification.Type.WARNING, 7000).Show();
+      return;
+    }
+
+    await self.ImportServersFromFile();
+  }
+
+  async #Handler__ExportServersClick(event) {
+    const self = event.data.self;
+
+    if (!Encrypt.KeyReady) {
+      new Notification("User's encryption key is not ready yet!", Notification.Type.WARNING, 7000).Show();
+      return;
+    }
+
+    await self.ExportServersToFile();
   }
 }
 

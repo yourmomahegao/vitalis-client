@@ -78,7 +78,7 @@ class Notification {
 
     .notification-container .notification .notification-content .notification-text {
         font-size: var(--font-m);
-        font-weight: var(--font-weight-normal);
+        font-weight: var(--font-weight-medium);
         white-space: wrap;
     }
 
