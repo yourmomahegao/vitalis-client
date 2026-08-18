@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
+    "postinstall": "electron-builder install-app-deps",
     "build:scss": "sass src/scss:src/css",
     "dist-win": "electron-builder --win",
     "dist-linux": "electron-builder --linux",
