@@ -23,6 +23,12 @@ SQLite.Database.exec(`CREATE TABLE IF NOT EXISTS vt_servers_tokens (
                         CONSTRAINT vt_servers_tokens_vt_servers_FK FOREIGN KEY (server_id) REFERENCES vt_servers(id)
                       );`);
 
+SQLite.WipeAllData = function () {
+  SQLite.Database.exec(`DELETE FROM vt_servers_tokens;`);
+  SQLite.Database.exec(`DELETE FROM vt_servers;`);
+  SQLite.Database.exec(`DELETE FROM sqlite_sequence WHERE name IN ('vt_servers', 'vt_servers_tokens');`);
+};
+
 app.on("before-quit", () => {
   SQLite.Database.close();
 });

@@ -86,5 +86,27 @@ $(async function () {
     $(document).trigger("encryption-key-present");
   });
 
-  // TODO: Implement reset key logic here
+  // Wiping all app data and resetting the encryption key
+  $encryptionResetButton.on("click", async function (event) {
+    const confirmed = confirm("This will permanently delete all saved servers and reset your encryption key. This action cannot be undone. Continue?");
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      SQLite.WipeAllData();
+    } catch (err) {
+      $encryptionError.text("Failed to wipe stored data");
+      $encryptionError.removeClass("hidden");
+      return;
+    }
+
+    localStorage.clear();
+    await Encrypt.resetEncryptionKey();
+
+    const { app: remoteApp } = require("@electron/remote");
+    remoteApp.relaunch();
+    remoteApp.exit();
+  });
 });

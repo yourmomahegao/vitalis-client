@@ -100,6 +100,19 @@ Encrypt.checkEncryptionKey = async function (key) {
   return { status: true, message: null };
 };
 
+Encrypt.resetEncryptionKey = async function () {
+  Encrypt.KeyReady = false;
+  Encrypt.SavedKey = "";
+
+  try {
+    await fsa.unlink(Encrypt.EncryptionKeyCheckFilepath);
+  } catch {}
+
+  try {
+    await fsa.unlink(Encrypt.EncryptionSaltFilepath);
+  } catch {}
+};
+
 $(document).on("encryption-key-present", function () {
   Encrypt.KeyReady = true;
 });
